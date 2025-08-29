@@ -53,4 +53,9 @@ Cụ thể:
 
 - Sinh viên có thể thêm các chức năng vào chương trình để ứng dụng phong phú hơn bằng cách thêm các nghiệp vụ cho bài toán (tùy chọn).
 
+##Sơ đồ khối yêu cầu
+1.1 UML Class Diagram
+<img width="441" height="814" alt="1 drawio" src="https://github.com/user-attachments/assets/864aa93d-c95b-4162-ad9e-60e9db26dcbb" />
+
+
 
