@@ -54,9 +54,19 @@ Cụ thể:
 - Sinh viên có thể thêm các chức năng vào chương trình để ứng dụng phong phú hơn bằng cách thêm các nghiệp vụ cho bài toán (tùy chọn).
 
 ## Sơ đồ khối yêu cầu
-1.1 UML Class Diagram
+## 1.1 UML Class Diagram
 
 <img width="441" height="814" alt="1 drawio" src="https://github.com/user-attachments/assets/864aa93d-c95b-4162-ad9e-60e9db26dcbb" />
 
+## 1.2 UML Sequence Diagram
+
+## 1.2.1: findPatient
+<img width="736" height="627" alt="image" src="https://github.com/user-attachments/assets/4436a59f-b000-4abf-a94b-fd2d13b1c0a1" />
+
+## 1.2.2: findTreatmentRoom
+<img width="762" height="722" alt="image" src="https://github.com/user-attachments/assets/fd4ad94d-b6d6-4c93-907c-80c6140af2a4" />
+
+## 1.2.3: assignPatientToRoom
+<img width="1012" height="763" alt="image" src="https://github.com/user-attachments/assets/83596e33-45ed-48f0-937e-caf13a500275" />
 
 
