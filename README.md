@@ -19,31 +19,31 @@ Cụ thể:
 
 ## Quản lý bệnh nhân
 
-Thêm bệnh nhân mới
+- Thêm bệnh nhân mới
 
-Sửa thông tin bệnh nhân
+- Sửa thông tin bệnh nhân
 
-Xóa bệnh nhân
+- Xóa bệnh nhân
 
-Xem danh sách bệnh nhân
+- Xem danh sách bệnh nhân
 
-Lọc bệnh nhân theo độ tuổi (ví dụ: > 60 tuổi → bệnh nhân già, 18–30 → thanh niên, …)
+- Lọc bệnh nhân theo độ tuổi (ví dụ: > 60 tuổi → bệnh nhân già, 18–30 → thanh niên, …)
 
 ## Quản lý phòng
 
-Thêm phòng mới
+- Thêm phòng mới
 
-Sửa thông tin phòng
+- Sửa thông tin phòng
 
-Xóa phòng
+- Xóa phòng
 
-Liệt kê tất cả các phòng + số bệnh nhân trong đó
+- Liệt kê tất cả các phòng + số bệnh nhân trong đó
 
 ## Gán bệnh nhân vào phòng
 
-Chọn bệnh nhân và đưa vào phòng cụ thể
+- Chọn bệnh nhân và đưa vào phòng cụ thể
 
-Nếu phòng đã đầy (patients.size() == capacity) → báo lỗi
+- Nếu phòng đã đầy (patients.size() == capacity) → báo lỗi
 
 - Dữ liệu được lưu trữ xuống file nhị phân
 
