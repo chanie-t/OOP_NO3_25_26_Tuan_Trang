@@ -1,12 +1,13 @@
-
-# Thành viên :
+OOP-N03_25_26 
+# Hệ Thống Quản Lý Bệnh Viện
+## Thành viên :
 
 Nguyễn Minh Tuấn - 22010478@st.phenikaa-uni.edu.vn
 
 Nguyễn Thùy Trang - 23010487@st.phenikaa-uni.edu.vn
 
 Nội dung:
-# Project: Hệ thống quản lý Bệnh viện.
+## Project: Hệ thống quản lý Bệnh viện.
 
 Yêu cầu chính:
 
@@ -16,7 +17,7 @@ Yêu cầu chính:
 
 Cụ thể:
 
-# Quản lý bệnh nhân
+## Quản lý bệnh nhân
 
 Thêm bệnh nhân mới
 
@@ -28,7 +29,7 @@ Xem danh sách bệnh nhân
 
 Lọc bệnh nhân theo độ tuổi (ví dụ: > 60 tuổi → bệnh nhân già, 18–30 → thanh niên, …)
 
-# Quản lý phòng
+## Quản lý phòng
 
 Thêm phòng mới
 
@@ -38,7 +39,7 @@ Xóa phòng
 
 Liệt kê tất cả các phòng + số bệnh nhân trong đó
 
-# Gán bệnh nhân vào phòng
+## Gán bệnh nhân vào phòng
 
 Chọn bệnh nhân và đưa vào phòng cụ thể
 
