@@ -1,4 +1,4 @@
-package HospitalSystem.Util;
+package src;
 
 public class Recursion {
      private String type;      // "Hospital", "Department", "Room", "Bed", "Patient"
