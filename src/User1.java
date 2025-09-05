@@ -1,4 +1,4 @@
-package HospitalSystem.Model;
+package src;
 
 public class User1 {
 
