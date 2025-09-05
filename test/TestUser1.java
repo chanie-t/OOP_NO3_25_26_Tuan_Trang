@@ -1,6 +1,6 @@
 import HospitalSystem.Model.User;
 
-public class TestUser {
+public class TestUser1 {
     public static void main(String[] args) {
         User u = new User();
         u.setID(1);
