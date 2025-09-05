@@ -1,6 +1,6 @@
 package HospitalSystem.Model;
 
-public class User {
+public class User1 {
 
     private int ID;
     private String firstName;
@@ -11,7 +11,7 @@ public class User {
     private String password;
     protected Option[] options; 
 
-    public User() {}
+    public User1() {}
     
     public int getID() {
         return ID;
@@ -71,7 +71,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "User1{" +
                 "ID=" + ID +
                 ", firstName='" + firstName + '\'' +
                 ", middleName='" + middleName + '\'' +
