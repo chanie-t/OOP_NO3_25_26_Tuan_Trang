@@ -1,3 +1,6 @@
+package test;
+import src.Time;
+
 public class TestTime {
     public static void test() {
         Time t = new Time();

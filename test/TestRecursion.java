@@ -1,3 +1,6 @@
+package test;
+import src.Node;
+
 public class TestRecursion {
     public static void test() {
         // patient
