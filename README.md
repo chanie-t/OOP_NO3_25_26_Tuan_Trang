@@ -58,15 +58,26 @@ Cụ thể:
 
 <img width="441" height="814" alt="1 drawio" src="https://github.com/user-attachments/assets/864aa93d-c95b-4162-ad9e-60e9db26dcbb" />
 
-## 1.2 UML Sequence Diagram
+## 1.2 🧠Sơ đồ thuật toán
+#1.2.1 <strong>CRUD Doctor</strong>
+<img width="1310" height="524" alt="image" src="https://github.com/user-attachments/assets/9c8266c0-dd66-478b-a70d-8eba69599ff6" />
 
-## 1.2.1: findPatient
-<img width="736" height="627" alt="image" src="https://github.com/user-attachments/assets/4436a59f-b000-4abf-a94b-fd2d13b1c0a1" />
 
-## 1.2.2: findTreatmentRoom
-<img width="762" height="722" alt="image" src="https://github.com/user-attachments/assets/fd4ad94d-b6d6-4c93-907c-80c6140af2a4" />
+#1.2.2 <strong>CRUD Patient</strong>
 
-## 1.2.3: assignPatientToRoom
-<img width="1012" height="763" alt="image" src="https://github.com/user-attachments/assets/83596e33-45ed-48f0-937e-caf13a500275" />
+<img width="1323" height="524" alt="image" src="https://github.com/user-attachments/assets/b9f49fb3-8fe3-4a10-8356-0711f548ad02" />
+
+
+#1.2.3 <strong>CRUD Department</strong>
+
+<img width="1449" height="524" alt="image" src="https://github.com/user-attachments/assets/92699e60-f455-4963-afc0-529ce6270f0d" />
+
+
+#1.2.4<strong>CRUD Appointment</strong>
+
+<img width="1480" height="524" alt="image" src="https://github.com/user-attachments/assets/9c244a8e-87b8-475b-90ee-3fd03e4a6aef" />
+
+
+
 
 
