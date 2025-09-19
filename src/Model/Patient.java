@@ -1,4 +1,4 @@
-package HospitalSystem.Model;
+package Model;
 
 import java.util.ArrayList;
 
@@ -29,5 +29,29 @@ public class Patient extends User{
 
     public void setOperations(ArrayList<Operation> operations) {
         this.operations = operations;
-    } 
+    }
+
+    public ArrayList<Report> getReports() {
+        return reports;
+    }
+
+    public void setReports(ArrayList<Report> reports) {
+        this.reports = reports;
+    }
+
+    public ArrayList<Operation> getUnpaidOperations() {
+        return unpaidOperations;
+    }
+
+    public void setUnpaidOperations(ArrayList<Operation> unpaidOperations) {
+        this.unpaidOperations = unpaidOperations;
+    }
+
+    public ArrayList<Report> getUnpaidReports() {
+        return unpaidReports;
+    }
+
+    public void setUnpaidReports(ArrayList<Report> unpaidReports) {
+        this.unpaidReports = unpaidReports;
+    }
 }
