@@ -59,21 +59,21 @@ Cụ thể:
 <img width="441" height="814" alt="1 drawio" src="https://github.com/user-attachments/assets/864aa93d-c95b-4162-ad9e-60e9db26dcbb" />
 
 ## 1.2 🧠Sơ đồ thuật toán
-#1.2.1 <strong>CRUD Doctor</strong>
+## 1.2.1 <strong>CRUD Doctor</strong>
 <img width="1310" height="524" alt="image" src="https://github.com/user-attachments/assets/9c8266c0-dd66-478b-a70d-8eba69599ff6" />
 
 
-#1.2.2 <strong>CRUD Patient</strong>
+## 1.2.2 <strong>CRUD Patient</strong>
 
 <img width="1323" height="524" alt="image" src="https://github.com/user-attachments/assets/b9f49fb3-8fe3-4a10-8356-0711f548ad02" />
 
 
-#1.2.3 <strong>CRUD Department</strong>
+## 1.2.3 <strong>CRUD Department</strong>
 
 <img width="1449" height="524" alt="image" src="https://github.com/user-attachments/assets/92699e60-f455-4963-afc0-529ce6270f0d" />
 
 
-#1.2.4<strong>CRUD Appointment</strong>
+## 1.2.4<strong>CRUD Appointment</strong>
 
 <img width="1480" height="524" alt="image" src="https://github.com/user-attachments/assets/9c244a8e-87b8-475b-90ee-3fd03e4a6aef" />
 
