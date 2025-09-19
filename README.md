@@ -73,7 +73,7 @@ Cụ thể:
 <img width="1449" height="524" alt="image" src="https://github.com/user-attachments/assets/92699e60-f455-4963-afc0-529ce6270f0d" />
 
 
-## 1.2.4<strong>CRUD Appointment</strong>
+## 1.2.4 <strong>CRUD Appointment</strong>
 
 <img width="1480" height="524" alt="image" src="https://github.com/user-attachments/assets/9c244a8e-87b8-475b-90ee-3fd03e4a6aef" />
 
