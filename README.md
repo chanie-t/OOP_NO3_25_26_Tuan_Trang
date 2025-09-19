@@ -56,7 +56,8 @@ Cụ thể:
 ## Sơ đồ khối yêu cầu
 ## 1.1 UML Class Diagram
 
-<img width="441" height="814" alt="1 drawio" src="https://github.com/user-attachments/assets/864aa93d-c95b-4162-ad9e-60e9db26dcbb" />
+<img width="484" height="1060" alt="image" src="https://github.com/user-attachments/assets/d7654f6d-d454-421b-acae-37f0cd9fb35c" />
+
 
 ## 1.2 🧠Sơ đồ thuật toán
 ## 1.2.1 <strong>CRUD Doctor</strong>
