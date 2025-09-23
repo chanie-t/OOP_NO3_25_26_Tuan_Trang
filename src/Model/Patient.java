@@ -54,4 +54,5 @@ public class Patient extends User{
     public void setUnpaidReports(ArrayList<Report> unpaidReports) {
         this.unpaidReports = unpaidReports;
     }
+
 }

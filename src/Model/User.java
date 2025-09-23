@@ -1,10 +1,11 @@
 package Model;
 
+import java.util.Scanner;
+
 public class User {
     
     private int ID;
     private String firstName;
-    private String middleName;
     private String lastName;
     private String email;
     private String phoneNumber;
@@ -31,15 +32,7 @@ public class User {
         this.firstName = firstName;
     }
 
-    public String getmiddleName() {
-        return middleName;
-    }
-
-    public void setMidlleName(String middleName) {
-        this.middleName = middleName;
-    }
-
-    public String getlastName() {
+    public String getLastName() {
         return lastName;
     }
 
@@ -67,7 +60,17 @@ public class User {
         return password;
     }
 
-    public void getPassword(String password){
+    public void setPassword(String password){
         this.password = password;
     }
+
+    public void showList(Scanner s, Database database) {
+        for (int i = 1; i <= options.length; i++) {
+            System.out.println(i+". "+options[i - 1].getName());
+        }
+        int selected = s.nextInt();
+        options[selected - 1].operation(s, database, this);
+        showList(s, database);
+    }
+
 }
