@@ -1,7 +1,7 @@
 package Model;
 
 public abstract class Employee extends User {
-    
+
     private double salary;
 
     public Employee() {
@@ -12,10 +12,11 @@ public abstract class Employee extends User {
         return salary;
     }
 
-    public void setSalary(double salary){
+    public void setSalary(double salary) {
         this.salary = salary;
     }
 
     public abstract int getJob();
 
+    public abstract String getJobToString();
 }

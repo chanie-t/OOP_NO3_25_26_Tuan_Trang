@@ -5,11 +5,12 @@ import java.util.Scanner;
 
 import Model.Cashier;
 import Model.Database;
+import Model.Doctor;
 import Model.Receptionist;
 import Model.User;
 
 public class Login {
-    
+
     private String email, password;
     private Database database;
     private User u;
@@ -22,28 +23,32 @@ public class Login {
 
     public boolean isLoggedIn() {
         boolean loggedIn = false;
-        String select = "SELECT * FROM `employees` WHERE `Email`='"+email+
-                "' AND `Password`='"+password+"';";
+        String select = "SELECT * FROM `employees` WHERE `Email`='" + email +
+                "' AND `Password`='" + password + "';";
         try {
             ResultSet rs = database.getStatement().executeQuery(select);
             loggedIn = rs.next();
             if (loggedIn) {
                 int job = rs.getInt("Job");
                 switch (job) {
-                case 1:
-                    u = new Cashier();
-                    break;
-                case 2:
-                    u = new Receptionist();
-                    break;
-                default:
-                    u = new User() {
-                        
-                        @Override
-                        public void showList(Scanner s, Database database) {
-                            System.out.println("Unknown job");
-                        }
-                    };
+                    case 0:
+                        u = new Doctor();
+                        ((Doctor) u).setSpecialization(rs.getString("Specialization"));
+                        break;
+                    case 1:
+                        u = new Cashier();
+                        break;
+                    case 2:
+                        u = new Receptionist();
+                        break;
+                    default:
+                        u = new User() {
+
+                            @Override
+                            public void showList(Scanner s, Database database) {
+                                System.out.println("Unknown job");
+                            }
+                        };
 
                 }
                 u.setID(rs.getInt("ID"));

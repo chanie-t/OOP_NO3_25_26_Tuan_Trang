@@ -2,7 +2,7 @@ package Model;
 
 import java.util.ArrayList;
 
-public class Patient extends User{
+public class Patient extends User {
 
     private String bloodGroup;
     private ArrayList<Operation> operations;

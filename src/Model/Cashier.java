@@ -2,7 +2,7 @@ package Model;
 
 import java.util.Scanner;
 
-public class Cashier extends Employee{
+public class Cashier extends Employee {
 
     public Cashier() {
         super();
@@ -17,5 +17,10 @@ public class Cashier extends Employee{
     @Override
     public void showList(Scanner s, Database database) {
 
+    }
+
+    @Override
+    public String getJobToString() {
+        return "Cashier";
     }
 }

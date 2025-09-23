@@ -15,7 +15,7 @@ public class Report {
     private boolean paid;
 
     public Report() {
-    
+
     }
 
     public int getID() {
@@ -78,5 +78,3 @@ public class Report {
         this.treatment = treatment;
     }
 }
-
-

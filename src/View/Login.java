@@ -5,7 +5,7 @@ import java.util.Scanner;
 import Model.Database;
 
 public class Login {
- 
+
     public Login(Scanner s, Database database) {
         System.out.println("Welcome to Hospital Management System");
         System.out.println("Enter email:");

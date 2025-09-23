@@ -1,12 +1,12 @@
 package Model;
 
-public class Doctor extends Employee{
-    
-    private String specialization; 
+public class Doctor extends Employee {
+
+    private String specialization;
 
     public Doctor() {
         super();
-        this.options = new Option[] {}; 
+        this.options = new Option[] {};
     }
 
     public String getSpecialization() {
@@ -19,7 +19,11 @@ public class Doctor extends Employee{
 
     @Override
     public int getJob() {
-        return 3;
+        return 0;
     }
 
+    @Override
+    public String getJobToString() {
+        return "Doctor";
+    }
 }

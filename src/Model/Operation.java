@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Operation {
-    
+
     private int ID;
     private Doctor doctor;
     private Patient patient;
@@ -14,7 +14,7 @@ public class Operation {
     private String diagnosis;
 
     public Operation() {
-    
+
     }
 
     public int getID() {
@@ -69,4 +69,3 @@ public class Operation {
         this.diagnosis = diagnosis;
     }
 }
-

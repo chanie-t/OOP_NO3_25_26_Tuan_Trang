@@ -5,13 +5,14 @@ import java.util.Scanner;
 import Controller.CreateEmployee;
 import Model.Cashier;
 import Model.Database;
+import Model.Doctor;
 import Model.Employee;
 import Model.Option;
 import Model.Receptionist;
 import Model.User;
 
 public class AddNewEmployee implements Option {
-    
+
     @Override
     public void operation(Scanner s, Database database, User u) {
         System.out.println("Enter first name:");
@@ -33,13 +34,29 @@ public class AddNewEmployee implements Option {
         double salary = s.nextDouble();
         int job;
         do {
-            System.out.println("Enter job title:\n1. Cashier\n2. Receptionist");
+            System.out.println("Enter job title:\n0. Doctor\n1. Cashier\n2. Receptionist");
             job = s.nextInt();
-        } while (job<0 || job>2);
+        } while (job < 0 || job > 2);
+
+        String specialization = "";
+        if (job == 0) {
+            System.out.println("Enter specialization:");
+            specialization = s.next();
+        }
 
         Employee employee;
 
         switch (job) {
+            case 0:
+                employee = new Doctor();
+                employee.setFirstName(firstName);
+                employee.setLastName(lastName);
+                employee.setEmail(email);
+                employee.setPhoneNumber(phoneNumber);
+                employee.setPassword(password);
+                employee.setSalary(salary);
+                ((Doctor) employee).setSpecialization(specialization);
+                break;
             case 1:
                 employee = new Cashier();
                 employee.setFirstName(firstName);
@@ -58,28 +75,33 @@ public class AddNewEmployee implements Option {
                 employee.setPassword(password);
                 employee.setSalary(salary);
                 break;
-                default:
-                    employee = new Employee() {
-                        @Override
-                        public int getJob() {
-                            return -1;
-                        }
+            default:
+                employee = new Employee() {
+                    @Override
+                    public int getJob() {
+                        return -1;
+                    }
 
-                        @Override
-                        public void showList(Scanner s, Database database) {
-                            System.out.println("Unknown job");
-                        }
-                    };
+                    @Override
+                    public String getJobToString() {
+                        return "Unknown job";
+                    }
+
+                    @Override
+                    public void showList(Scanner s, Database database) {
+                        System.out.println("Unknown job");
+                    }
+                };
         }
 
         if (new CreateEmployee(employee, database).isCreated())
             System.out.println("Employee add successfully");
-        
+
     }
 
     @Override
     public String getName() {
         return "Add new employee";
     }
-    
+
 }

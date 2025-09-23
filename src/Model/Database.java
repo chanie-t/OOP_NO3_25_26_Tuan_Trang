@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-
 public class Database {
     private String user = "root";
     private String pass = "";
@@ -34,8 +33,10 @@ public class Database {
 
     public void close() {
         try {
-            if (statement != null) statement.close();
-            if (connection != null) connection.close();
+            if (statement != null)
+                statement.close();
+            if (connection != null)
+                connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

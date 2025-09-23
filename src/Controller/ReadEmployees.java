@@ -6,11 +6,12 @@ import java.util.ArrayList;
 
 import Model.Cashier;
 import Model.Database;
+import Model.Doctor;
 import Model.Employee;
 import Model.Receptionist;
 
 public class ReadEmployees {
-    
+
     private ArrayList<Employee> employees;
 
     public ReadEmployees(Database database) {
@@ -22,25 +23,28 @@ public class ReadEmployees {
                 Employee e;
                 int job = rs.getInt("Job");
                 switch (job) {
-                case 1:
-                    e = new Cashier();
-                    break;
-                case 2:
-                    e = new Receptionist();
-                    break;
-                default:
-                    e = new Employee() {
+                    case 0:
+                        e = new Doctor();
+                        ((Doctor) e).setSpecialization(rs.getString("Specialization"));
+                        break;
+                    case 1:
+                        e = new Cashier();
+                        break;
+                    case 2:
+                        e = new Receptionist();
+                        break;
+                    default:
+                        e = new Employee() {
+                            @Override
+                            public int getJob() {
+                                return -1;
+                            }
 
-                        @Override
-                        public int getJob() {
-                            return -1;
-                        }
-
-                        @Override
-                        public void showList(java.util.Scanner s, Database database) {
-                            System.out.println("Unknown job");
-                        }
-                    };
+                            @Override
+                            public String getJobToString() {
+                                return "Unknown job";
+                            }
+                        };
 
                 }
                 e.setID(rs.getInt("ID"));
