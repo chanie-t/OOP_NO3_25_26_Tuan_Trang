@@ -4,7 +4,9 @@ import View.AddNewEmployee;
 import View.AddNewPatient;
 import View.ChangePassword;
 import View.EditEmployee;
+import View.EditPatient;
 import View.FireEmployee;
+import View.ViewAllPatients;
 import View.ViewEmployees;
 
 public class Receptionist extends Employee {
@@ -17,6 +19,8 @@ public class Receptionist extends Employee {
                 new EditEmployee(),
                 new FireEmployee(),
                 new AddNewPatient(),
+                new ViewAllPatients(),
+                new EditPatient(),
                 new ChangePassword()
 
         };
