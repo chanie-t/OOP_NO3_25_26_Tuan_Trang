@@ -1,12 +1,16 @@
 package Model;
 
+import View.ChangePassword;
+
 public class Doctor extends Employee {
 
     private String specialization;
 
     public Doctor() {
         super();
-        this.options = new Option[] {};
+        this.options = new Option[] {
+                new ChangePassword()
+        };
     }
 
     public String getSpecialization() {

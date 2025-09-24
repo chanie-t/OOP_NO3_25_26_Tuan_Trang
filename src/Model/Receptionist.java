@@ -1,7 +1,10 @@
 package Model;
 
 import View.AddNewEmployee;
+import View.AddNewPatient;
+import View.ChangePassword;
 import View.EditEmployee;
+import View.FireEmployee;
 import View.ViewEmployees;
 
 public class Receptionist extends Employee {
@@ -11,9 +14,12 @@ public class Receptionist extends Employee {
         this.options = new Option[] {
                 new AddNewEmployee(),
                 new ViewEmployees(),
-                new EditEmployee()
-        };
+                new EditEmployee(),
+                new FireEmployee(),
+                new AddNewPatient(),
+                new ChangePassword()
 
+        };
     }
 
     @Override
