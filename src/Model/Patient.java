@@ -2,6 +2,8 @@ package Model;
 
 import java.util.ArrayList;
 
+import View.ChangePatientPassword;
+
 public class Patient extends User {
 
     private String bloodGroup;
@@ -12,7 +14,9 @@ public class Patient extends User {
 
     public Patient() {
         super();
-        this.options = new Option[] {};
+        this.options = new Option[] {
+            new ChangePatientPassword()
+        };
     }
 
     public String getBloodGroup() {

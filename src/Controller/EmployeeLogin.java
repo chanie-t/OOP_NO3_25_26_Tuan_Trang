@@ -9,13 +9,13 @@ import Model.Doctor;
 import Model.Receptionist;
 import Model.User;
 
-public class Login {
+public class EmployeeLogin {
 
     private String email, password;
     private Database database;
     private User u;
 
-    public Login(String email, String password, Database database) {
+    public EmployeeLogin(String email, String password, Database database) {
         this.email = email;
         this.password = password;
         this.database = database;

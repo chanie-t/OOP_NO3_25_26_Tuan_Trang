@@ -9,7 +9,7 @@ import View.FireEmployee;
 import View.ViewAllPatients;
 import View.ViewEmployees;
 
-public class Receptionist extends Employee {
+public class Receptionist extends Employee { // quản lý các chức năng của lễ tân
 
     public Receptionist() {
         super();
