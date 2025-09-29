@@ -6,6 +6,7 @@ import View.ChangePassword;
 import View.EditEmployee;
 import View.EditPatient;
 import View.FireEmployee;
+import View.RemovePatient;
 import View.ViewAllPatients;
 import View.ViewEmployees;
 
@@ -21,6 +22,7 @@ public class Receptionist extends Employee { // quản lý các chức năng c�
                 new AddNewPatient(),
                 new ViewAllPatients(),
                 new EditPatient(),
+                new RemovePatient(),
                 new ChangePassword()
 
         };

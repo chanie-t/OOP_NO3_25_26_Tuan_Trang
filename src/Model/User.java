@@ -73,4 +73,8 @@ public class User {
         showList(s, database);
     }
 
+    public String getName() {
+        return firstName+" "+lastName;
+    }
+
 }

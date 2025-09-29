@@ -1,5 +1,6 @@
 package Model;
 
+import View.AddNewOperation;
 import View.ChangePassword;
 
 public class Doctor extends Employee {
@@ -9,6 +10,7 @@ public class Doctor extends Employee {
     public Doctor() {
         super();
         this.options = new Option[] {
+                new AddNewOperation(),
                 new ChangePassword()
         };
     }

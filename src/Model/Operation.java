@@ -10,7 +10,7 @@ public class Operation {
     private Patient patient;
     private LocalDateTime dateTime;
     private boolean paid;
-    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM//yyyy HH:mm:ss");
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy-HH:mm:ss");
     private String diagnosis;
 
     public Operation() {
@@ -50,7 +50,7 @@ public class Operation {
     }
 
     public String getDateTimeFormat() {
-        return "dd/MM/yyyy HH:mm:ss";
+        return "dd/MM/yyyy-HH:mm:ss";
     }
 
     public boolean isPaid() {
