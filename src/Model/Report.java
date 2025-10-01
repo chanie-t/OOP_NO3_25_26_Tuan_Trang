@@ -9,7 +9,7 @@ public class Report {
     private Doctor doctor;
     private Patient patient;
     private LocalDateTime dateTime;
-    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM//yyyy HH:mm:ss");
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy-HH:mm:ss");
     private String diagnosis;
     private String treatment;
     private boolean paid;
@@ -51,7 +51,7 @@ public class Report {
     }
 
     public String getDateTimeFormat() {
-        return "dd/MM/yyyy HH:mm:ss";
+        return "dd/MM/yyyy-HH:mm:ss";
     }
 
     public boolean isPaid() {

@@ -28,17 +28,17 @@ public class AddNewOperation implements Option {
 
         operation.setPatient(new ReadPatient(patientID, database).getPatient());
 
-        System.out.println("Enter Date Time with format ("+ operation.getDateTimeFormat()+"):");
+        System.out.println("Enter Date Time with format (" + operation.getDateTimeFormat() + "):");
         operation.setDateTime(s.next());
         operation.setPaid(false);
         System.out.println("Enter diagnosis: ");
         operation.setDiagnosis(s.next());
 
-        System.out.println("\nDoctor:\t\t"+operation.getDoctor().getName());
-        System.out.println("Patient:\t"+operation.getPatient().getName());
-        System.out.println("Date Time:\t"+operation.getDateTime());
-        System.out.println("Paid:\t\t"+operation.isPaid());
-        System.out.println("Diagnosis:\t"+operation.getDiagnosis());
+        System.out.println("\nDoctor:\t\t" + operation.getDoctor().getName());
+        System.out.println("Patient:\t" + operation.getPatient().getName());
+        System.out.println("Date Time:\t" + operation.getDateTime());
+        System.out.println("Paid:\t\t" + operation.isPaid());
+        System.out.println("Diagnosis:\t" + operation.getDiagnosis());
 
         System.out.println("\nBạn có muốn tiếp tục không?\n"
                 + "These data cannot be updated later\n"

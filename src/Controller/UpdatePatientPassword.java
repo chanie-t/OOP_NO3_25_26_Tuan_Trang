@@ -17,8 +17,8 @@ public class UpdatePatientPassword {
 
     public boolean isUpdated() {
         boolean updated = false;
-        String update = "UPDATE `patients` SET `Password`='"+p.getPassword()
-                +"' WHERE `ID` = "+p.getID()+" ;";
+        String update = "UPDATE `patients` SET `Password`='" + p.getPassword()
+                + "' WHERE `ID` = " + p.getID() + " ;";
         try {
             database.getStatement().execute(update);
             updated = true;

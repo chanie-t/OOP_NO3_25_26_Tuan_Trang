@@ -8,7 +8,7 @@ import Model.Database;
 import Model.Patient;
 
 public class ReadPatients {
-    
+
     private ArrayList<Patient> patients;
 
     public ReadPatients(Database database) {

@@ -17,10 +17,10 @@ public class CreateOperation {
 
     public boolean isCreated() {
         boolean created = false;
-        String insert = "INSERT INTO `operations`(`Doctor`, `Patient`, `DateTime`, " 
-                + " `Paid`, `Diagnosis`) VALUES ('"+o.getDoctor().getID()+
-                "','"+o.getPatient().getID()+"','"+o.getDateTime()+"','"+o.isPaid()
-                +"','"+o.getDiagnosis()+"') ;";
+        String insert = "INSERT INTO `operations`(`Doctor`, `Patient`, `DateTime`, "
+                + " `Paid`, `Diagnosis`) VALUES ('" + o.getDoctor().getID() +
+                "','" + o.getPatient().getID() + "','" + o.getDateTime() + "','" + o.isPaid()
+                + "','" + o.getDiagnosis() + "') ;";
         try {
             database.getStatement().execute(insert);
             created = true;

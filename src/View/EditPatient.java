@@ -24,28 +24,33 @@ public class EditPatient implements Option {
         Patient p = new ReadPatient(ID, database).getPatient();
         System.out.println("Enter first name (-1 to keep old value): ");
         String firstName = s.next();
-        if (!firstName.equals("-1")) p.setFirstName(firstName);
-        
+        if (!firstName.equals("-1"))
+            p.setFirstName(firstName);
+
         System.out.println("Enter last name (-1 to keep old value): ");
         String lastName = s.next();
-        if (!lastName.equals("-1")) p.setLastName(lastName);
+        if (!lastName.equals("-1"))
+            p.setLastName(lastName);
 
         System.out.println("Enter email (-1 to keep old value): ");
         String email = s.next();
-        if (!email.equals("-1")) p.setEmail(email);
+        if (!email.equals("-1"))
+            p.setEmail(email);
 
         System.out.println("Enter phone number (-1 to keep old value): ");
         String phoneNumber = s.next();
-        if (!phoneNumber.equals("-1")) p.setPhoneNumber(phoneNumber);
+        if (!phoneNumber.equals("-1"))
+            p.setPhoneNumber(phoneNumber);
 
         System.out.println("Enter blood group (-1 to keep old value): ");
         String bloodGroup = s.next();
-        if (!bloodGroup.equals("-1")) p.setBloodGroup(bloodGroup);
+        if (!bloodGroup.equals("-1"))
+            p.setBloodGroup(bloodGroup);
 
         if (new UpdatePatient(p, database).isUpdated()) {
             System.out.println("Patient updated succesfully");
         }
-    }   
+    }
 
     @Override
     public String getName() {

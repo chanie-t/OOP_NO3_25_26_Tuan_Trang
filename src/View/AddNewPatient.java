@@ -9,7 +9,7 @@ import Model.Patient;
 import Model.User;
 
 public class AddNewPatient implements Option {
-    
+
     @Override
     public void operation(Scanner s, Database database, User u) {
         Patient patient = new Patient();
@@ -36,7 +36,7 @@ public class AddNewPatient implements Option {
             System.out.println("Patient added scuccessfully");
         }
     }
-    
+
     @Override
     public String getName() {
         return "Add New Patient";

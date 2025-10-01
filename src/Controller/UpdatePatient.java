@@ -17,10 +17,10 @@ public class UpdatePatient {
 
     public boolean isUpdated() {
         boolean updated = false;
-        String update = "UPDATE `patients` SET `FirstName`='"+p.getFirstName()
-                +"',`LastName`='"+p.getLastName()+"',`Email`='"+p.getEmail()
-                +"',`PhoneNumber`='"+p.getPhoneNumber()+"',`BloodGroup`='"
-                +p.getBloodGroup()+"' WHERE `ID` = "+p.getID()+";";
+        String update = "UPDATE `patients` SET `FirstName`='" + p.getFirstName()
+                + "',`LastName`='" + p.getLastName() + "',`Email`='" + p.getEmail()
+                + "',`PhoneNumber`='" + p.getPhoneNumber() + "',`BloodGroup`='"
+                + p.getBloodGroup() + "' WHERE `ID` = " + p.getID() + ";";
         try {
             database.getStatement().execute(update);
             updated = true;

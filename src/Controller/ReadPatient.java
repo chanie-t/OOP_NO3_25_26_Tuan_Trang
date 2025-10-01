@@ -11,7 +11,7 @@ public class ReadPatient {
     private Patient p;
 
     public ReadPatient(int ID, Database database) {
-        String select = "SELECT * FROM `patients` WHERE `ID` = "+ID+" ;";
+        String select = "SELECT * FROM `patients` WHERE `ID` = " + ID + " ;";
         try {
             ResultSet rs = database.getStatement().executeQuery(select);
             rs.next();

@@ -74,7 +74,7 @@ public class User {
     }
 
     public String getName() {
-        return firstName+" "+lastName;
+        return firstName + " " + lastName;
     }
 
 }

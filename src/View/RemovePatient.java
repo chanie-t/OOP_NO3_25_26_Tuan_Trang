@@ -29,5 +29,4 @@ public class RemovePatient implements Option {
         return "Remove Patient";
     }
 
-
 }

@@ -16,7 +16,7 @@ public class DeletePatient {
 
     public boolean isDeleted() {
         boolean deleted = false;
-        String delete = "DELETE FROM `patients` WHERE `ID` = "+ID+" ;";
+        String delete = "DELETE FROM `patients` WHERE `ID` = " + ID + " ;";
         try {
             database.getStatement().execute(delete);
             deleted = true;

@@ -4,9 +4,8 @@ import java.sql.SQLException;
 
 import Model.Database;
 
-
 public class DeleteEmployee {
-    
+
     private int ID;
     private Database database;
 
@@ -17,7 +16,7 @@ public class DeleteEmployee {
 
     public boolean isDeleted() {
         boolean delected = false;
-        String delete = "DELETE FROM `employees` WHERE `ID` = "+ID+" ;";
+        String delete = "DELETE FROM `employees` WHERE `ID` = " + ID + " ;";
         try {
             database.getStatement().executeUpdate(delete);
             delected = true;

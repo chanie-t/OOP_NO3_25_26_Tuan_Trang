@@ -19,8 +19,8 @@ public class PatientLogin {
     }
 
     public boolean isLoggedIn() {
-        String select = "SELECT * FROM `patients` WHERE `Email` = '"+email+
-                "' AND `Password` = '"+password+"' ;";
+        String select = "SELECT * FROM `patients` WHERE `Email` = '" + email +
+                "' AND `Password` = '" + password + "' ;";
         boolean loggedIn = false;
         try {
             ResultSet rs = database.getStatement().executeQuery(select);
