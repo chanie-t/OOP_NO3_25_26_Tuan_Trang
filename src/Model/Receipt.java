@@ -54,6 +54,16 @@ public class Receipt {
         this.type = type;
     }
 
+    public String getTypeToString() {
+        if (type == 0) {
+            return "Operations";
+        } else if (type == 1) {
+            return "Report";
+        } else {
+            return null;
+        }
+    }
+
     public int getItemID() {
         return itemID;
     }

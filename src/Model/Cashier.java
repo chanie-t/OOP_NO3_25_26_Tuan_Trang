@@ -1,5 +1,6 @@
 package Model;
 
+import View.AddNewReceipt;
 import View.ChangePassword;
 
 public class Cashier extends Employee {
@@ -7,6 +8,7 @@ public class Cashier extends Employee {
     public Cashier() {
         super();
         this.options = new Option[] {
+                new AddNewReceipt(), // thêm hoá đơn mới
                 new ChangePassword()
         };
     }

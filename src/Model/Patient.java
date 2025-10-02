@@ -3,6 +3,8 @@ package Model;
 import java.util.ArrayList;
 
 import View.ChangePatientPassword;
+import View.ViewPatientUnpaidOperations;
+import View.ViewPatientUnpaidReports;
 import View.ViewPatientUserReports;
 import View.ViewPatientUserData;
 import View.ViewPatientUserOperations;
@@ -21,6 +23,8 @@ public class Patient extends User {
                 new ViewPatientUserData(),
                 new ViewPatientUserOperations(),
                 new ViewPatientUserReports(),
+                new ViewPatientUnpaidOperations(),
+                new ViewPatientUnpaidReports(),
                 new ChangePatientPassword()
         };
     }
