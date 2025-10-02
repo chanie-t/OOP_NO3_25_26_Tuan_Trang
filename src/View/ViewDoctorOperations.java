@@ -3,19 +3,18 @@ package View;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import Controller.ReadPatientOperations;
+import Controller.ReadDoctorOperations;
 import Model.Database;
+import Model.Doctor;
 import Model.Operation;
 import Model.Option;
-import Model.Patient;
 import Model.User;
 
-public class ViewPatientUserOperations implements Option {
+public class ViewDoctorOperations implements Option {
 
     @Override
-    public void operation(Scanner s, Database database, User u) {
-        ArrayList<Operation> operations = new ReadPatientOperations(
-                (Patient) u, database).getOperations();
+    public void operation (Scanner s, Database database, User u) {
+        ArrayList<Operation> operations = new ReadDoctorOperations((Doctor) u, database).getOperations();
         System.out.println("-------------------------------------");
         for (Operation o : operations) {
             System.out.println("ID:\t\t" + o.getID());

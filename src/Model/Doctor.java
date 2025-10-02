@@ -3,8 +3,10 @@ package Model;
 import View.AddNewOperation;
 import View.AddNewReport;
 import View.ChangePassword;
+import View.ViewDoctorOperations;
 import View.ViewPatientData;
 import View.ViewPatientOperations;
+import View.ViewPatientReports;
 
 public class Doctor extends Employee {
 
@@ -17,6 +19,8 @@ public class Doctor extends Employee {
                 new AddNewReport(),
                 new ViewPatientData(),
                 new ViewPatientOperations(),
+                new ViewPatientReports(),
+                new ViewDoctorOperations(),
                 new ChangePassword()
         };
     }
