@@ -56,10 +56,10 @@ Cụ thể:
 ## Sơ đồ khối yêu cầu
 ## 1.1 UML Class Diagram
 
-<img width="484" height="1060" alt="image" src="https://github.com/user-attachments/assets/d7654f6d-d454-421b-acae-37f0cd9fb35c" />
+<img width="644" height="703" alt="hospital class diagram" src="https://github.com/user-attachments/assets/f72b0eaa-590a-4264-98f4-8a021ca5c9dd" />
 
 
-## 1.2 🧠Sơ đồ thuật toán
+## 1.2 Sơ đồ thuật toán
 ## 1.2.1 <strong>CRUD Doctor</strong>
 <img width="1310" height="524" alt="image" src="https://github.com/user-attachments/assets/9c8266c0-dd66-478b-a70d-8eba69599ff6" />
 
