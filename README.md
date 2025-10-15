@@ -56,7 +56,7 @@ Cụ thể:
 ## Sơ đồ khối yêu cầu
 ## 1.1 UML Class Diagram
 
-<img width="992" height="1056" alt="hospital class diagram hoàn chỉnh" src="https://github.com/user-attachments/assets/67bf312b-f020-4420-a9a9-035ec77e1f58" />
+<img width="757" height="738" alt="hospital class diagram" src="https://github.com/user-attachments/assets/233693ab-0f3f-44b1-a549-a57dfc52b3a6" />
 
 
 ## 1.2 Sơ đồ thuật toán
