@@ -58,27 +58,26 @@ Cụ thể:
 
 <img width="757" height="738" alt="hospital class diagram" src="https://github.com/user-attachments/assets/233693ab-0f3f-44b1-a549-a57dfc52b3a6" />
 
-
 ## 1.2 Sơ đồ thuật toán
-## 1.2.1 <strong>CRUD Doctor</strong>
-<img width="1310" height="524" alt="image" src="https://github.com/user-attachments/assets/9c8266c0-dd66-478b-a70d-8eba69599ff6" />
+## 1.2.1 <strong>CRUD CREATE</strong>
 
+<img width="1803" height="529" alt="CRUD Create" src="https://github.com/user-attachments/assets/03414ce0-74f1-4d17-8026-d9a755b08cde" />
 
-## 1.2.2 <strong>CRUD Patient</strong>
+## 1.2.2 <strong>CRUD READ</strong>
 
-<img width="1323" height="524" alt="image" src="https://github.com/user-attachments/assets/b9f49fb3-8fe3-4a10-8356-0711f548ad02" />
+<img width="1685" height="514" alt="xem danh sách bệnh nhân (CRUD Read)" src="https://github.com/user-attachments/assets/1b680a6f-ecad-40c4-a06a-7b68d79b4fbe" />
 
+## 1.2.3 <strong>CRUD UPDATE</strong>
 
-## 1.2.3 <strong>CRUD Department</strong>
+<img width="2251" height="800" alt="cập nhật lịch hẹn (CRUD Update)" src="https://github.com/user-attachments/assets/40cc707e-2989-4a90-a3c5-8cf9996a1436" />
 
-<img width="1449" height="524" alt="image" src="https://github.com/user-attachments/assets/92699e60-f455-4963-afc0-529ce6270f0d" />
+## 1.2.4 <strong>CRUD DELETE</strong>
 
+<img width="2180" height="698" alt="huỷ lịch hẹn (CRUD Delete)" src="https://github.com/user-attachments/assets/3d663488-edda-4b05-a010-901b891ee2ac" />
 
-## 1.2.4 <strong>CRUD Appointment</strong>
+## 1.2.5 <strong>Chức năng lõi</strong>
 
-<img width="1480" height="524" alt="image" src="https://github.com/user-attachments/assets/9c244a8e-87b8-475b-90ee-3fd03e4a6aef" />
-
-
+<img width="2163" height="816" alt="bệnh nhân đặt lịch hẹn" src="https://github.com/user-attachments/assets/c19bd427-2648-4abd-835f-b1ba6ff1b558" />
 
 
 
