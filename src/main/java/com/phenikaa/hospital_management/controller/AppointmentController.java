@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController // Đánh dấu đây là một Controller xử lý các yêu cầu API
-@RequestMapping("/api/appointments") // Tất cả các URL trong controller này sẽ bắt đầu bằng /api/appointments
+@RequestMapping("/api/appointments") // các URL trong controller này sẽ bắt đầu bằng /api/appointments
 public class AppointmentController {
 
     @Autowired
@@ -19,7 +19,6 @@ public class AppointmentController {
      * Endpoint để đặt một lịch hẹn mới.
      * Lắng nghe yêu cầu POST tại URL: /api/appointments/book
      */
-    // Trong file AppointmentController.java
     @PostMapping("/book")
     public ResponseEntity<?> bookAppointment(@RequestBody AppointmentRequestDTO request) { // Đổi sang ResponseEntity<?>
         try {

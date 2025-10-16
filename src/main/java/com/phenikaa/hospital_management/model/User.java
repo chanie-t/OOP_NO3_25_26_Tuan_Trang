@@ -1,48 +1,64 @@
 package com.phenikaa.hospital_management.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-@Getter
-@Setter
-@ToString
-@NoArgsConstructor // Constructor không tham số là bắt buộc đối với JPA
 @Entity
 @Table(name = "users")
-@Inheritance(strategy = InheritanceType.JOINED)
-public abstract class User {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(nullable = false)
-    private String fullName;
-
-    private String email;
-    private String phoneNumber;
-    private LocalDate dateOfBirth;
-    private boolean isActive = true;
-
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    @ToString.Exclude // Loại trừ khỏi toString() để tránh lỗi
     private Set<Role> roles = new HashSet<>();
+
+    public User() {
+    }
+
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 }

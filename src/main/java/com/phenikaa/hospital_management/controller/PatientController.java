@@ -1,38 +1,40 @@
-// package com.phenikaa.hospital_management.controller;
+package com.phenikaa.hospital_management.controller;
 
-// import com.phenikaa.hospital_management.model.Patient;
-// import com.phenikaa.hospital_management.service.PatientService;
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.http.HttpStatus;
-// import org.springframework.http.ResponseEntity;
-// import org.springframework.web.bind.annotation.*;
+import com.phenikaa.hospital_management.model.Patient;
+import com.phenikaa.hospital_management.service.PatientService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
-// import java.util.List;
+@Controller
+public class PatientController {
 
-// @RestController
-// @RequestMapping("/api/patients") // Tiền tố chung cho tất cả các API trong lớp này
-// public class PatientController {
+    @Autowired
+    private PatientService patientService;
 
-//     @Autowired
-//     private PatientService patientService;
+    // GET de hien thi danh sach
+    @GetMapping("/patients")
+    public String listPatients(Model model) {
+        model.addAttribute("patients", patientService.getAllPatients());
+        return "patients"; // Trả về file patients.html
+    }
 
-//     /**
-//      * API để lấy danh sách tất cả bệnh nhân.
-//      * URL: GET http://localhost:8080/api/patients
-//      */
-//     @GetMapping
-//     public List<Patient> getAllPatients() {
-//         return patientService.getAllPatients();
-//     }
+    // GET de hien thi form them moi
+    @GetMapping("/patients/add")
+    public String showAddPatientForm(Model model) {
+        // Tạo đối tượng Patient rỗng để Thymeleaf binding dữ liệu
+        Patient patient = new Patient();
+        model.addAttribute("patient", patient);
+        return "add-patient"; // Trả về file add-patient.html
+    }
 
-//     /**
-//      * API để tạo một bệnh nhân mới.
-//      * URL: POST http://localhost:8080/api/patients
-//      * Body của request sẽ chứa thông tin bệnh nhân dưới dạng JSON.
-//      */
-//     @PostMapping
-//     public ResponseEntity<Patient> createPatient(@RequestBody Patient patient) {
-//         Patient savedPatient = patientService.createPatient(patient);
-//         return new ResponseEntity<>(savedPatient, HttpStatus.CREATED);
-//     }
-// }
+    // POST de xu ly du lieu tu form
+    @PostMapping("/patients")
+    public String savePatient(@ModelAttribute("patient") Patient patient) {
+        patientService.savePatient(patient);
+        return "redirect:/patients"; // Chuyển hướng về trang danh sách
+    }
+}

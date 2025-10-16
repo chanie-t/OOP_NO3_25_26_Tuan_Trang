@@ -6,9 +6,9 @@ import java.time.LocalDateTime;
 public interface AppointmentService {
 
     /**
-     * Chức năng đặt một lịch hẹn mới.
-     * @param doctorId ID của bác sĩ
-     * @param patientId ID của bệnh nhân
+     * Chức năng đặt một lịch hẹn
+     * @param doctorId ID bác sĩ
+     * @param patientId ID bệnh nhân
      * @param appointmentTime Thời gian hẹn
      * @param reason Lý do khám
      * @return Đối tượng Appointment đã được tạo
@@ -16,7 +16,4 @@ public interface AppointmentService {
      */
     Appointment bookAppointment(Long doctorId, Long patientId, LocalDateTime appointmentTime, String reason);
 
-    // Các phương thức khác có thể được thêm vào sau này
-    // ví dụ: Appointment cancelAppointment(Long appointmentId);
-    // ví dụ: Appointment updateAppointment(Long appointmentId, LocalDateTime newTime);
 }

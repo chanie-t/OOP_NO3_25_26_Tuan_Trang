@@ -6,7 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DoctorRepository extends JpaRepository<Doctor, Long> {
-    // Các phương thức CRUD cơ bản (findAll, findById, save, delete) đã có sẵn.
-    // Có thể thêm các phương thức tìm kiếm riêng nếu cần, ví dụ:
-    // List<Doctor> findBySpecialization(String specialization);
+    
 }

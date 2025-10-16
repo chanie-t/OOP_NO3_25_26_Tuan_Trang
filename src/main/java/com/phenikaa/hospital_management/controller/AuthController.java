@@ -8,7 +8,6 @@ public class AuthController {
 
     @GetMapping("/login")
     public String login() {
-        // Trả về tên của file HTML trong templates (ví dụ: login.html)
-        return "login";
+        return "login"; // Trả về file login.html
     }
 }

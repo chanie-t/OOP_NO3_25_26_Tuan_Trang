@@ -26,17 +26,17 @@ public class MedicalRecord {
 
     private LocalDateTime recordDate;
 
-    // Mối quan hệ Một-tới-Một: Mỗi bệnh án tương ứng với một Lịch hẹn.
+    // Mối quan hệ Một-tới-Một: Mỗi bệnh án tương ứng với một lịch hẹn
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "appointment_id", nullable = false)
     private Appointment appointment;
 
-    // Mối quan hệ Nhiều-tới-Một: Nhiều bệnh án có thể do một Bác sĩ tạo.
+    // Mối quan hệ Nhiều-tới-Một: Nhiều bệnh án có thể do một Bác sĩ tạo
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
 
-    // Mối quan hệ Nhiều-tới-Một: Nhiều bệnh án có thể thuộc về một Bệnh nhân.
+    // Mối quan hệ Nhiều-tới-Một: Nhiều bệnh án có thể thuộc về một bệnh nhân
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id", nullable = false)
     private Patient patient;

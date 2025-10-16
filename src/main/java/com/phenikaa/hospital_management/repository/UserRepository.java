@@ -3,10 +3,10 @@ package com.phenikaa.hospital_management.repository;
 import com.phenikaa.hospital_management.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import java.util.Optional;
+
+import java.util.Optional; // Thêm import này
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-
     Optional<User> findByUsername(String username);
 }

@@ -26,12 +26,12 @@ public class Appointment {
 
     private String reason;
 
-    // Mối quan hệ Nhiều-tới-Một: Nhiều lịch hẹn có thể thuộc về một Bác sĩ.
+    // Mối quan hệ Nhiều-tới-Một: Nhiều lịch hẹn có thể thuộc về một Bác sĩ
     @ManyToOne(fetch = FetchType.LAZY) // LAZY: chỉ tải khi cần thiết
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
 
-    // Mối quan hệ Nhiều-tới-Một: Nhiều lịch hẹn có thể thuộc về một Bệnh nhân.
+    // Mối quan hệ Nhiều-tới-Một: Nhiều lịch hẹn có thể thuộc về một Bệnh nhân
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id", nullable = false)
     private Patient patient;

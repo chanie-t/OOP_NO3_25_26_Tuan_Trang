@@ -27,9 +27,9 @@ public class AppointmentServiceImpl implements AppointmentService {
     private PatientRepository patientRepository;
 
     @Override
-    @Transactional // Đảm bảo tất cả các thao tác CSDL trong phương thức này là một giao dịch
+    @Transactional
     public Appointment bookAppointment(Long doctorId, Long patientId, LocalDateTime appointmentTime, String reason) {
-        // --- Bắt đầu hiện thực hóa logic từ Sơ đồ Tuần tự ---
+        // --- Bắt đầu từ Sơ đồ Tuần tự ---
 
         // 1. Tìm Bác sĩ và Bệnh nhân
         Doctor doctor = doctorRepository.findById(doctorId)
