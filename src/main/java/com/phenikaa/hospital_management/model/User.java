@@ -1,64 +1,34 @@
 package com.phenikaa.hospital_management.model;
 
 import jakarta.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import lombok.Getter;
+import lombok.Setter;
+import java.time.LocalDate;
 
-@Entity
-@Table(name = "users")
-public class User {
+@Getter
+@Setter
+@MappedSuperclass
+public abstract class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username", nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(name = "password", nullable = false)
+    @Column(nullable = false)
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles = new HashSet<>();
+    @Column(nullable = false)
+    private String fullName;
 
-    public User() {
-    }
+    @Column(nullable = false, unique = true)
+    private String email;
 
-    // Getters and Setters
-    public Long getId() {
-        return id;
-    }
+    private String phoneNumber;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private LocalDate dateOfBirth;
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
+    private boolean isActive = true;
 }
