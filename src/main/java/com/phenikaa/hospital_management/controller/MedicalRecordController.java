@@ -16,27 +16,13 @@ public class MedicalRecordController {
     @Autowired
     private MedicalRecordService medicalRecordService;
 
-    /**
-     * Phương thức này xử lý yêu cầu GET để HIỂN THỊ form tạo bệnh án.
-     * @param appointmentId ID của cuộc hẹn đã hoàn thành.
-     * @param model Dùng để truyền dữ liệu sang cho View (trang HTML).
-     * @return Tên của file HTML template.
-     */
     @GetMapping("/records/create-for-appointment/{appointmentId}")
     public String showCreateRecordForm(@PathVariable Long appointmentId, Model model) {
         // Truyền appointmentId sang cho view để form biết cần tạo bệnh án cho cuộc hẹn nào
         model.addAttribute("appointmentId", appointmentId);
-        return "create-medical-record"; // Trả về file create-medical-record.html
+        return "create-medical-record"; // Trả về file create-medical-record
     }
 
-    /**
-     * Phương thức này xử lý yêu cầu POST khi người dùng SUBMIT form.
-     * @param appointmentId ID của cuộc hẹn.
-     * @param diagnosis Dữ liệu chẩn đoán từ form.
-     * @param prescription Dữ liệu đơn thuốc từ form.
-     * @param redirectAttributes Dùng để gửi thông báo sau khi chuyển hướng.
-     * @return Chuyển hướng người dùng đến một trang khác.
-     */
     @PostMapping("/records/create-for-appointment/{appointmentId}")
     public String processCreateRecord(@PathVariable Long appointmentId,
                                       @RequestParam String diagnosis,
@@ -50,7 +36,7 @@ public class MedicalRecordController {
             // Thêm thông báo lỗi
             redirectAttributes.addFlashAttribute("errorMessage", "Lỗi: " + e.getMessage());
         }
-        // Sau khi tạo xong, chuyển hướng về trang dashboard (ví dụ)
+        // Sau khi tạo xong, chuyển hướng về trang dashboard
         return "redirect:/doctor/dashboard";
     }
 }

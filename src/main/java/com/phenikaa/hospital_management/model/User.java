@@ -30,5 +30,7 @@ public abstract class User {
 
     private LocalDate dateOfBirth;
 
+    private String role;
+
     private boolean isActive = true;
 }

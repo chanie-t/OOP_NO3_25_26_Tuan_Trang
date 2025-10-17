@@ -25,16 +25,12 @@ public class AppointmentService {
     @Autowired
     private DoctorRepository doctorRepository;
 
-    /**
-     * Lấy danh sách lịch hẹn của một bệnh nhân
-     */
+    // Lấy danh sách lịch hẹn của một bệnh nhân
     public List<Appointment> findAppointmentsByPatientId(Long patientId) {
         return appointmentRepository.findByPatientId(patientId);
     }
 
-    /**
-     * Tạo một lịch hẹn mới
-     */
+    //Tạo một lịch hẹn mới
     public Appointment createAppointment(Long patientId, Long doctorId, LocalDateTime appointmentTime, String reason) {
         // Tìm Patient và Doctor, nếu không có sẽ ném ra lỗi
         Patient patient = patientRepository.findById(patientId)
@@ -52,14 +48,12 @@ public class AppointmentService {
         return appointmentRepository.save(appointment);
     }
 
-    /**
-     * Hủy một lịch hẹn
-     */
+    // Hủy một lịch hẹn
     public Appointment cancelAppointment(Long appointmentId) {
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Appointment not found with id: " + appointmentId));
 
-        // Kiểm tra logic: Không thể hủy lịch đã hoàn thành hoặc đã bị hủy
+        // Không thể hủy lịch đã hoàn thành hoặc đã bị hủy
         if (appointment.getStatus() == AppointmentStatus.COMPLETED || appointment.getStatus() == AppointmentStatus.CANCELLED) {
             throw new IllegalStateException("Cannot cancel an appointment that is already completed or cancelled.");
         }

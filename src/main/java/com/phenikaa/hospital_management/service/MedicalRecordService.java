@@ -19,21 +19,18 @@ public class MedicalRecordService {
     @Autowired
     private AppointmentRepository appointmentRepository;
 
-    /**
-     * PHƯƠNG THỨC HOẠT ĐỘNG CHÍNH CỦA ỨNG DỤNG (Yêu cầu 5)
-     * Bác sĩ tạo bệnh án dựa trên một cuộc hẹn đã hoàn thành.
-     */
+    // Bác sĩ tạo bệnh án dựa trên một cuộc hẹn đã hoàn thành
     public MedicalRecord createMedicalRecord(Long appointmentId, String diagnosis, String prescription) {
         // 1. Tìm cuộc hẹn tương ứng
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Appointment not found with id: " + appointmentId));
 
-        // 2. Kiểm tra logic nghiệp vụ: Chỉ tạo được bệnh án cho lịch hẹn đã HOÀN THÀNH
+        // 2. Chỉ tạo được bệnh án cho lịch hẹn đã hoàn thành
         if (appointment.getStatus() != AppointmentStatus.COMPLETED) {
             throw new IllegalStateException("Cannot create medical record for an appointment that is not completed.");
         }
 
-        // 3. Tạo đối tượng MedicalRecord mới
+        // 3. Tạo MedicalRecord mới
         MedicalRecord medicalRecord = new MedicalRecord();
         medicalRecord.setDiagnosis(diagnosis);
         medicalRecord.setPrescription(prescription);

@@ -8,6 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface DoctorRepository extends JpaRepository<Doctor, Long> {
-    // Tương tự, có thể thêm phương thức tìm bác sĩ bằng username
     Optional<Doctor> findByUsername(String username);
 }
