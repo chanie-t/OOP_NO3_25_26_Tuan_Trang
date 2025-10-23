@@ -11,14 +11,14 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>Tên Bác sĩ</th>
-            <th>Khoa</th>
-            <th>Chuyên ngành</th>
+            <th><a th:href="@{/patient/doctors(sort='fullName')}">Tên Bác sĩ</a></th>
+            <th><a th:href="@{/patient/doctors(sort='department')}">Khoa</a></th>
+            <th><a th:href="@{/patient/doctors(sort='specialization')}">Chuyên ngành</a></th>
             <th>Hành động</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="doctor : ${doctors}">
+        <tr th:each="doctor : ${doctorPage.content}">
             <td th:text="${doctor.fullName}"></td>
             <td th:text="${doctor.department}"></td>
             <td th:text="${doctor.specialization}"></td>
@@ -26,8 +26,29 @@
                 <a th:href="@{/patient/appointments/new/{id}(id=${doctor.id})}" class="btn btn-primary btn-sm">Đặt lịch hẹn</a>
             </td>
         </tr>
+        <tr th:if="${doctorPage.empty}">
+            <td colspan="4" class="text-center">Không tìm thấy bác sĩ nào.</td>
+        </tr>
         </tbody>
     </table>
+
+    <nav aria-label="Pagination" th:if="${doctorPage.totalPages > 0}">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${doctorPage.first} ? 'disabled'">
+                <a class="page-link" th:href="@{/patient/doctors(page=${doctorPage.number - 1}, size=${doctorPage.size}, sort=${doctorPage.sort.toString().replace(': ', ',')})}">
+                    Trang trước
+                </a>
+            </li>
+            <li class="page-item disabled">
+                <span class="page-link" th:text="'Trang ' + (${doctorPage.number} + 1) + ' / ' + ${doctorPage.totalPages}"></span>
+            </li>
+            <li class="page-item" th:classappend="${doctorPage.last} ? 'disabled'">
+                <a class="page-link" th:href="@{/patient/doctors(page=${doctorPage.number + 1}, size=${doctorPage.size}, sort=${doctorPage.sort.toString().replace(': ', ',')})}">
+                    Trang sau
+                </a>
+            </li>
+        </ul>
+    </nav>
 </div>
 </body>
 </html>

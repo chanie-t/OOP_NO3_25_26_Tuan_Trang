@@ -17,27 +17,17 @@ public class AuthController {
     @Autowired
     private PatientService patientService;
 
-    /**
-     * Hiển thị trang đăng nhập
-     */
     @GetMapping("/login")
     public String showLoginForm() {
-        return "login"; //
+        return "login"; 
     }
 
-    /**
-     * Hiển thị form đăng ký
-     */
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
-        // Gửi DTO rỗng ra view để binding
         model.addAttribute("registrationDTO", new UserRegistrationDTO());
-        return "register"; //
+        return "register"; 
     }
 
-    /**
-     * Xử lý khi người dùng gửi form đăng ký
-     */
     @PostMapping("/register")
     public String processRegistration(@Valid @ModelAttribute("registrationDTO") UserRegistrationDTO registrationDTO,
                                       BindingResult bindingResult,
@@ -45,10 +35,21 @@ public class AuthController {
         
         // Kiểm tra lỗi validation (bao gồm cả @UniqueUsername và @UniqueEmail)
         if (bindingResult.hasErrors()) {
+            // Log lỗi validation nếu cần (dùng logger thay System.out)
+            // bindingResult.getAllErrors().forEach(error -> log.warn("Validation Error: {}", error.getDefaultMessage()));
             return "register"; // Trả về form và hiển thị lỗi
         }
 
-        patientService.registerNewPatient(registrationDTO);
-        return "redirect:/login?success";
+        try {
+            patientService.registerNewPatient(registrationDTO);
+            return "redirect:/login?success";
+        } catch (Exception e) {
+            // Mặc dù đã có GlobalExceptionHandler, thêm log ở đây có thể hữu ích
+            // log.error("Lỗi khi đăng ký:", e); 
+            model.addAttribute("errorMessage", "Đã có lỗi xảy ra trong quá trình đăng ký.");
+            // Giữ lại DTO đã nhập để người dùng không phải nhập lại
+            model.addAttribute("registrationDTO", registrationDTO); 
+            return "register"; // Trả về trang đăng ký với thông báo lỗi chung
+        }
     }
 }

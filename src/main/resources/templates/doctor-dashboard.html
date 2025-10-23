@@ -14,6 +14,10 @@
         </form>
     </div>
     <hr/>
+
+    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+    <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
     <h3>Danh sách lịch hẹn</h3>
     <table class="table table-bordered">
         <thead>
@@ -32,14 +36,25 @@
             <td th:text="${app.patient.fullName}"></td>
             <td th:text="${#temporals.format(app.appointmentTime, 'dd-MM-yyyy HH:mm')}"></td>
             <td th:text="${app.reason}"></td>
-            <td><span th:text="${app.status}"
-                      th:classappend="${app.status.name() == 'COMPLETED' ? 'text-success' : 'text-warning'}"></span>
+            <td>
+                <span th:text="${app.status}"
+                      th:classappend="${app.status.name() == 'COMPLETED' ? 'text-success' : (app.status.name() == 'SCHEDULED' ? 'text-warning' : 'text-danger')}">
+                </span>
             </td>
             <td>
+                <form th:if="${app.status.name() == 'SCHEDULED'}"
+                      th:action="@{/doctor/appointments/complete/{id}(id=${app.id})}" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-success btn-sm">Hoàn thành</button>
+                </form>
+
                 <a th:if="${app.status.name() == 'COMPLETED'}"
                    th:href="@{/records/create-for-appointment/{id}(id=${app.id})}"
                    class="btn btn-info btn-sm">Kê đơn thuốc</a>
+
             </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(appointments)}">
+             <td colspan="6" class="text-center">Bạn chưa có lịch hẹn nào.</td>
         </tr>
         </tbody>
     </table>

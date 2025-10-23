@@ -31,44 +31,36 @@ public class AppointmentController {
     @Autowired
     private AppointmentRepository appointmentRepository; 
 
-    //Hiển thị form để bệnh nhân đặt lịch hẹn
     @GetMapping("/patient/appointments/new/{doctorId}")
     public String showAppointmentForm(@PathVariable Long doctorId, Model model) {
-        // tạo DTO rỗng -> view
         AppointmentRequestDTO dto = new AppointmentRequestDTO();
         dto.setDoctorId(doctorId);
         
         model.addAttribute("appointmentRequest", dto); 
         model.addAttribute("doctor", doctorRepository.findById(doctorId).orElse(null));
-        return "appointment-form"; //
+        return "appointment-form";
     }
 
-    // Xử lý khi bệnh nhân gửi form đặt lịch
     @PostMapping("/patient/appointments/create")
     public String createAppointment(@Valid @ModelAttribute("appointmentRequest") AppointmentRequestDTO requestDTO,
                                     BindingResult bindingResult,
                                     Authentication authentication,
                                     Model model) {
 
-        // Lấy thông tin patient đang đăng nhập
         String username = authentication.getName();
         Patient patient = patientRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Patient not found"));
         
-        // Nếu validation  thất bại
         if (bindingResult.hasErrors()) {
-            // Cần tải lại tên bác sĩ để hiển thị lại form
             model.addAttribute("doctor", doctorRepository.findById(requestDTO.getDoctorId()).orElse(null));
-            return "appointment-form"; // Trả về form và hiển thị lỗi
+            return "appointment-form";
         }
 
-        // Gọi service với DTO để tạo lịch hẹn
         appointmentService.createAppointment(patient.getId(), requestDTO);
 
-        return "redirect:/patient/dashboard?book_success"; //
+        return "redirect:/patient/dashboard?book_success";
     }
     
-    // Xử lý khi bệnh nhân hủy lịch
     @PostMapping("/patient/appointments/cancel/{id}")
     @PreAuthorize("@appointmentRepository.findById(#id).get().getPatient().getUsername() == authentication.name")
     public String cancelAppointment(@PathVariable("id") Long id, 
@@ -78,14 +70,17 @@ public class AppointmentController {
         return "redirect:/patient/dashboard";
     }
 
-    // Xử lý khi bác sĩ hoàn thành lịch
+    /**
+     * Xử lý khi bác sĩ đánh dấu lịch hẹn là hoàn thành
+     */
     @PostMapping("/doctor/appointments/complete/{id}")
-    @PreAuthorize("hasRole('DOCTOR')")
+    @PreAuthorize("hasRole('DOCTOR')") // Chỉ bác sĩ
     public String completeAppointment(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             appointmentService.completeAppointment(id);
             redirectAttributes.addFlashAttribute("successMessage", "Đã hoàn thành lịch hẹn.");
         } catch (Exception e) {
+            // Lỗi sẽ được bắt bởi GlobalExceptionHandler, nhưng chúng ta vẫn có thể thêm thông báo ở đây
             redirectAttributes.addFlashAttribute("errorMessage", "Lỗi: " + e.getMessage());
         }
         return "redirect:/doctor/dashboard";

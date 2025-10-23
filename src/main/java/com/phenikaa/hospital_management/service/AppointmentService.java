@@ -28,7 +28,6 @@ public class AppointmentService {
         return appointmentRepository.findByPatientId(patientId);
     }
 
-    // Đây là hàm đã sửa, nhận vào DTO
     public Appointment createAppointment(Long patientId, AppointmentRequestDTO requestDTO) {
         Patient patient = patientRepository.findById(patientId)
                 .orElseThrow(() -> new ResourceNotFoundException("Patient not found with id: " + patientId));
@@ -40,11 +39,18 @@ public class AppointmentService {
         appointment.setDoctor(doctor);
         appointment.setAppointmentTime(requestDTO.getAppointmentTime());
         appointment.setReason(requestDTO.getReason());
-        appointment.setStatus(AppointmentStatus.SCHEDULED); //
+        appointment.setStatus(AppointmentStatus.SCHEDULED);
 
         return appointmentRepository.save(appointment);
     }
 
+    /**
+     * Bác sĩ đánh dấu lịch hẹn là đã hoàn thành.
+     * @param appointmentId ID của lịch hẹn
+     * @return Lịch hẹn đã cập nhật trạng thái
+     * @throws ResourceNotFoundException nếu không tìm thấy lịch hẹn
+     * @throws IllegalStateException nếu lịch hẹn không ở trạng thái SCHEDULED
+     */
     public Appointment completeAppointment(Long appointmentId) {
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Appointment not found with id: " + appointmentId));

@@ -1,4 +1,3 @@
-// File: src/main/java/com/phenikaa/hospital_management/service/CustomUserDetailsService.java
 package com.phenikaa.hospital_management.service;
 
 import com.phenikaa.hospital_management.model.Doctor;
@@ -28,25 +27,25 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // 1. Tìm trong bảng Patient trước
+        // 1. Tìm trong bảng Patient
         Optional<Patient> patientOpt = patientRepository.findByUsername(username);
         if (patientOpt.isPresent()) {
             Patient patient = patientOpt.get();
-            // Nếu tìm thấy, tạo đối tượng UserDetails với vai trò ROLE_PATIENT
-            GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_PATIENT");
+            // Đọc Role từ CSDL (ví dụ: "PATIENT")
+            GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + patient.getRole());
             return new User(patient.getUsername(), patient.getPassword(), Collections.singleton(authority));
         }
 
-        // 2. Nếu không có Patient, tìm trong bảng Doctor
+        // 2. Tìm trong bảng Doctor
         Optional<Doctor> doctorOpt = doctorRepository.findByUsername(username);
         if (doctorOpt.isPresent()) {
             Doctor doctor = doctorOpt.get();
-            // Nếu tìm thấy, tạo đối tượng UserDetails với vai trò ROLE_DOCTOR
-            GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_DOCTOR");
+            // Đọc Role từ CSDL (ví dụ: "DOCTOR")
+            GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + doctor.getRole());
             return new User(doctor.getUsername(), doctor.getPassword(), Collections.singleton(authority));
         }
 
-        // 3. Nếu không tìm thấy ở cả 2 bảng, ném ra lỗi
+        // 3. Không tìm thấy
         throw new UsernameNotFoundException("User not found with username: " + username);
     }
 }
