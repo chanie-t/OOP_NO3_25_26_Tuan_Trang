@@ -28,11 +28,29 @@ public class MedicalRecordController {
      */
     @GetMapping("/records/create-for-appointment/{appointmentId}")
     @PreAuthorize("hasRole('DOCTOR')") 
-    public String showCreateRecordForm(/*...*/) { /*...*/ return "create-medical-record"; }
+    // SỬA LỖI: Bổ sung @PathVariable và Model
+    public String showCreateRecordForm(@PathVariable("appointmentId") Long appointmentId, Model model) { 
+        model.addAttribute("appointmentId", appointmentId);
+        return "create-medical-record"; 
+    }
 
     @PostMapping("/records/create-for-appointment/{appointmentId}")
     @PreAuthorize("hasRole('DOCTOR')") 
-    public String processCreateRecord(/*...*/) { /*...*/ return "redirect:/doctor/dashboard"; }
+    // SỬA LỖI: Bổ sung các tham số để nhận dữ liệu từ form
+    public String processCreateRecord(@PathVariable("appointmentId") Long appointmentId,
+                                      @RequestParam("diagnosis") String diagnosis,
+                                      @RequestParam("prescription") String prescription,
+                                      RedirectAttributes redirectAttributes) {
+        try {
+            // Gọi service để lưu bệnh án
+            medicalRecordService.createMedicalRecord(appointmentId, diagnosis, prescription);
+            redirectAttributes.addFlashAttribute("successMessage", "Đã tạo bệnh án thành công.");
+        } catch (Exception e) {
+            // Xử lý nếu có lỗi
+            redirectAttributes.addFlashAttribute("errorMessage", "Lỗi khi tạo bệnh án: " + e.getMessage());
+        }
+        return "redirect:/doctor/dashboard"; 
+    }
     
     /**
      * Hiển thị chi tiết bệnh án cho bệnh nhân

@@ -8,16 +8,25 @@
 <body>
 <div class="container mt-5">
     <h2>Đặt lịch hẹn với Bác sĩ: <span th:text="${doctor.fullName}"></span></h2>
-    <form th:action="@{/patient/appointments/create}" method="post">
-        <input type="hidden" name="doctorId" th:value="${doctorId}">
+    
+    <form th:action="@{/patient/appointments/create}" th:object="${appointmentRequest}" method="post">
+        
+        <input type="hidden" th:field="*{doctorId}">
+        
         <div class="mb-3">
             <label for="appointmentTime" class="form-label">Thời gian hẹn</label>
-            <input type="datetime-local" class="form-control" id="appointmentTime" name="appointmentTime" required>
+            <input type="datetime-local" class="form-control" th:field="*{appointmentTime}"
+                   th:classappend="${#fields.hasErrors('appointmentTime') ? 'is-invalid' : ''}" required>
+            <div th:if="${#fields.hasErrors('appointmentTime')}" th:errors="*{appointmentTime}" class="invalid-feedback"></div>
         </div>
+        
         <div class="mb-3">
             <label for="reason" class="form-label">Lý do khám</label>
-            <textarea class="form-control" id="reason" name="reason" rows="3" required></textarea>
+            <textarea class="form-control" th:field="*{reason}" rows="3" 
+                      th:classappend="${#fields.hasErrors('reason') ? 'is-invalid' : ''}" required></textarea>
+            <div th:if="${#fields.hasErrors('reason')}" th:errors="*{reason}" class="invalid-feedback"></div>
         </div>
+        
         <button type="submit" class="btn btn-primary">Xác nhận đặt lịch</button>
     </form>
 </div>

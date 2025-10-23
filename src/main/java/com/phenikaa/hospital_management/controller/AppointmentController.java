@@ -80,7 +80,6 @@ public class AppointmentController {
             appointmentService.completeAppointment(id);
             redirectAttributes.addFlashAttribute("successMessage", "Đã hoàn thành lịch hẹn.");
         } catch (Exception e) {
-            // Lỗi sẽ được bắt bởi GlobalExceptionHandler, nhưng chúng ta vẫn có thể thêm thông báo ở đây
             redirectAttributes.addFlashAttribute("errorMessage", "Lỗi: " + e.getMessage());
         }
         return "redirect:/doctor/dashboard";

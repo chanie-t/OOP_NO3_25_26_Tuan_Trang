@@ -8,8 +8,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.core.Authentication; // Giữ lại import này
-import org.springframework.security.core.GrantedAuthority; // Giữ lại import này
 
 @Configuration
 @EnableWebSecurity
@@ -26,30 +24,28 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/", "/login", "/register", "/css/**", "/js/**", "/error/**").permitAll()
-                // Phân quyền chỉ còn PATIENT và DOCTOR
+                // Phân quyền
                 .requestMatchers("/patient/**").hasRole("PATIENT")
                 .requestMatchers("/doctor/**").hasRole("DOCTOR")
-                // XÓA DÒNG .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/records/create-for-appointment/**").hasRole("DOCTOR")
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
-                // === TRẢ LẠI SUCCESS HANDLER CŨ ===
                 .successHandler((request, response, authentication) -> {
-                    // Chỉ kiểm tra có phải DOCTOR hay không
+                    // kiểm tra có phải doctor không
                     boolean isDoctor = authentication.getAuthorities().stream()
                             .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_DOCTOR"));
                     if (isDoctor) {
                         response.sendRedirect("/doctor/dashboard");
-                    } else { // Mặc định là PATIENT
+                    } else {
                         response.sendRedirect("/patient/dashboard");
                     }
                 })
                 .permitAll()
             )
-            // (Phần logout, rememberMe, exceptionHandling giữ nguyên)
+            // logout, rememberMe, exceptionHandling
             .logout(logout -> logout
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login?logout")
