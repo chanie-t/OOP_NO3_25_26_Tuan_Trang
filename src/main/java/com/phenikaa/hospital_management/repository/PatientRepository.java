@@ -8,6 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface PatientRepository extends JpaRepository<Patient, Long> {
-
+    // tìm bệnh nhân theo tên đăng nhập hoặc email
     Optional<Patient> findByUsername(String username);
+    Optional<Patient> findByEmail(String email);
 }

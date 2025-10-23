@@ -1,5 +1,6 @@
 package com.phenikaa.hospital_management.service;
 
+import com.phenikaa.hospital_management.dto.AppointmentRequestDTO;
 import com.phenikaa.hospital_management.exception.ResourceNotFoundException;
 import com.phenikaa.hospital_management.model.Appointment;
 import com.phenikaa.hospital_management.model.AppointmentStatus;
@@ -11,13 +12,11 @@ import com.phenikaa.hospital_management.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class AppointmentService {
 
-    // Tiêm các repository cần thiết vào service
     @Autowired
     private AppointmentRepository appointmentRepository;
     @Autowired
@@ -25,35 +24,43 @@ public class AppointmentService {
     @Autowired
     private DoctorRepository doctorRepository;
 
-    // Lấy danh sách lịch hẹn của một bệnh nhân
     public List<Appointment> findAppointmentsByPatientId(Long patientId) {
         return appointmentRepository.findByPatientId(patientId);
     }
 
-    //Tạo một lịch hẹn mới
-    public Appointment createAppointment(Long patientId, Long doctorId, LocalDateTime appointmentTime, String reason) {
-        // Tìm Patient và Doctor, nếu không có sẽ ném ra lỗi
+    // Đây là hàm đã sửa, nhận vào DTO
+    public Appointment createAppointment(Long patientId, AppointmentRequestDTO requestDTO) {
         Patient patient = patientRepository.findById(patientId)
                 .orElseThrow(() -> new ResourceNotFoundException("Patient not found with id: " + patientId));
-        Doctor doctor = doctorRepository.findById(doctorId)
-                .orElseThrow(() -> new ResourceNotFoundException("Doctor not found with id: " + doctorId));
+        Doctor doctor = doctorRepository.findById(requestDTO.getDoctorId())
+                .orElseThrow(() -> new ResourceNotFoundException("Doctor not found with id: " + requestDTO.getDoctorId()));
 
         Appointment appointment = new Appointment();
         appointment.setPatient(patient);
         appointment.setDoctor(doctor);
-        appointment.setAppointmentTime(appointmentTime);
-        appointment.setReason(reason);
-        appointment.setStatus(AppointmentStatus.SCHEDULED); // Trạng thái ban đầu
+        appointment.setAppointmentTime(requestDTO.getAppointmentTime());
+        appointment.setReason(requestDTO.getReason());
+        appointment.setStatus(AppointmentStatus.SCHEDULED); //
 
         return appointmentRepository.save(appointment);
     }
 
-    // Hủy một lịch hẹn
+    public Appointment completeAppointment(Long appointmentId) {
+        Appointment appointment = appointmentRepository.findById(appointmentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Appointment not found with id: " + appointmentId));
+
+        if (appointment.getStatus() != AppointmentStatus.SCHEDULED) {
+            throw new IllegalStateException("Cannot complete an appointment that is not scheduled.");
+        }
+
+        appointment.setStatus(AppointmentStatus.COMPLETED);
+        return appointmentRepository.save(appointment);
+    }
+
     public Appointment cancelAppointment(Long appointmentId) {
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Appointment not found with id: " + appointmentId));
 
-        // Không thể hủy lịch đã hoàn thành hoặc đã bị hủy
         if (appointment.getStatus() == AppointmentStatus.COMPLETED || appointment.getStatus() == AppointmentStatus.CANCELLED) {
             throw new IllegalStateException("Cannot cancel an appointment that is already completed or cancelled.");
         }

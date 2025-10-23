@@ -1,4 +1,3 @@
-// File: src/main/java/com/phenikaa/hospital_management/controller/DoctorController.java
 package com.phenikaa.hospital_management.controller;
 
 import com.phenikaa.hospital_management.model.Doctor;

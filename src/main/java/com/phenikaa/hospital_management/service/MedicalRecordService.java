@@ -21,26 +21,26 @@ public class MedicalRecordService {
 
     // Bác sĩ tạo bệnh án dựa trên một cuộc hẹn đã hoàn thành
     public MedicalRecord createMedicalRecord(Long appointmentId, String diagnosis, String prescription) {
-        // 1. Tìm cuộc hẹn tương ứng
+        // 1. tìm cuộc hẹn tương ứng
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Appointment not found with id: " + appointmentId));
 
-        // 2. Chỉ tạo được bệnh án cho lịch hẹn đã hoàn thành
+        // 2. chỉ tạo được bệnh án cho lịch hẹn đã hoàn thành
         if (appointment.getStatus() != AppointmentStatus.COMPLETED) {
             throw new IllegalStateException("Cannot create medical record for an appointment that is not completed.");
         }
 
-        // 3. Tạo MedicalRecord mới
+        // 3. tạo MedicalRecord
         MedicalRecord medicalRecord = new MedicalRecord();
         medicalRecord.setDiagnosis(diagnosis);
         medicalRecord.setPrescription(prescription);
         medicalRecord.setRecordDate(LocalDateTime.now());
         
-        // 4. Liên kết bản ghi với Patient và Doctor từ cuộc hẹn
+        // 4. liên kết với patient và doctor từ cuộc hẹn
         medicalRecord.setPatient(appointment.getPatient());
         medicalRecord.setDoctor(appointment.getDoctor());
 
-        // 5. Lưu vào CSDL
+        // 5. lưu vào csdl và trả về
         return medicalRecordRepository.save(medicalRecord);
     }
 }
