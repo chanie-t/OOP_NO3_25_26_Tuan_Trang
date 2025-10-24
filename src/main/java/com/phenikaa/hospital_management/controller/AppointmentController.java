@@ -71,10 +71,10 @@ public class AppointmentController {
     }
 
     /**
-     * Xử lý khi bác sĩ đánh dấu lịch hẹn là hoàn thành
+     * Xử lý khi bác sĩ đánh dấu completed
      */
     @PostMapping("/doctor/appointments/complete/{id}")
-    @PreAuthorize("hasRole('DOCTOR')") // Chỉ bác sĩ
+    @PreAuthorize("hasRole('DOCTOR')")
     public String completeAppointment(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             appointmentService.completeAppointment(id);

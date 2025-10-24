@@ -50,10 +50,10 @@ public class PatientService {
     public Patient updateProfile(String username, ProfileUpdateDTO profileDTO) {
         Patient patient = findByUsername(username);
 
-        // 1. Kiểm tra Email có bị trùng không
-        // (Chỉ kiểm tra nếu email đã thay đổi)
+        // 1. check mail có bị trùng không
+        // (chỉ check nếu email bị đổi)
         if (!patient.getEmail().equals(profileDTO.getEmail())) {
-            // Kiểm tra xem email mới có bị trùng không
+            // check xem mail mới có bị trùng không
             boolean emailExists = patientRepository.findByEmail(profileDTO.getEmail()).isPresent() ||
                                   doctorRepository.findByEmail(profileDTO.getEmail()).isPresent();
             if (emailExists) {
@@ -63,12 +63,22 @@ public class PatientService {
             patient.setEmail(profileDTO.getEmail());
         }
 
-        // 2. Cập nhật các trường khác
+        // 2. update trường khác
         patient.setFullName(profileDTO.getFullName());
         patient.setPhoneNumber(profileDTO.getPhoneNumber());
         patient.setDateOfBirth(profileDTO.getDateOfBirth());
 
-        // 3. Lưu lại
+        // 3. trả về patient được cập nhật
         return patientRepository.save(patient);
+    }
+
+    /**
+     * Vô hiệu hóa tài khoản bệnh nhân (Soft Delete)
+     */
+    @Transactional
+    public void deactivatePatient(String username) {
+        Patient patient = findByUsername(username);
+        patient.setActive(false); 
+        patientRepository.save(patient);
     }
 }

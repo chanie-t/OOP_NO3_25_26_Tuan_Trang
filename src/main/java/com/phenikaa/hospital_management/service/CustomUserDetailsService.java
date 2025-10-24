@@ -33,7 +33,17 @@ public class CustomUserDetailsService implements UserDetailsService {
             Patient patient = patientOpt.get();
             // Đọc Role từ CSDL (ví dụ: "PATIENT")
             GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + patient.getRole());
-            return new User(patient.getUsername(), patient.getPassword(), Collections.singleton(authority));
+            
+            // Trả về đối tượng UserDetails với kiểm tra 'isActive'
+            return new User(
+                patient.getUsername(), 
+                patient.getPassword(), 
+                patient.isActive(), // enabled
+                true, // accountNonExpired
+                true, // credentialsNonExpired
+                true, // accountNonLocked
+                Collections.singleton(authority)
+            );
         }
 
         // 2. Tìm trong bảng Doctor
@@ -41,8 +51,20 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (doctorOpt.isPresent()) {
             Doctor doctor = doctorOpt.get();
             // Đọc Role từ CSDL (ví dụ: "DOCTOR")
-            GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + doctor.getRole());
-            return new User(doctor.getUsername(), doctor.getPassword(), Collections.singleton(authority));
+            
+            // SỬA LỖI: Xóa bớt 1 dấu "" ở "ROLE_""
+            GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + doctor.getRole()); 
+            
+            // Trả về đối tượng UserDetails với kiểm tra 'isActive'
+            return new User(
+                doctor.getUsername(), 
+                doctor.getPassword(), 
+                doctor.isActive(), // enabled
+                true, // accountNonExpired
+                true, // credentialsNonExpired
+                true, // accountNonLocked
+                Collections.singleton(authority)
+            );
         }
 
         // 3. Không tìm thấy

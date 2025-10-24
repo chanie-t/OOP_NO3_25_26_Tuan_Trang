@@ -11,4 +11,7 @@ public interface MedicalRecordRepository extends JpaRepository<MedicalRecord, Lo
 
     // Tìm tất cả bệnh án của một bệnh nhân
     List<MedicalRecord> findByPatientId(Long patientId);
+
+    // THÊM DÒNG NÀY: Tìm tất cả bệnh án của một bác sĩ
+    List<MedicalRecord> findByDoctorId(Long doctorId);
 }

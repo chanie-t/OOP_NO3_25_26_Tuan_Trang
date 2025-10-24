@@ -30,4 +30,9 @@ public class MedicalRecord {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
+
+    // --- THÊM LIÊN KẾT ONE-TO-ONE TẠI ĐÂY ---
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "appointment_id", unique = true) // Đảm bảo tính duy nhất
+    private Appointment appointment;
 }

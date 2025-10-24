@@ -1,5 +1,6 @@
 package com.phenikaa.hospital_management.controller;
 
+import com.phenikaa.hospital_management.exception.ResourceNotFoundException;
 import com.phenikaa.hospital_management.model.MedicalRecord;
 import com.phenikaa.hospital_management.repository.MedicalRecordRepository;
 import com.phenikaa.hospital_management.service.MedicalRecordService;
@@ -28,7 +29,6 @@ public class MedicalRecordController {
      */
     @GetMapping("/records/create-for-appointment/{appointmentId}")
     @PreAuthorize("hasRole('DOCTOR')") 
-    // SỬA LỖI: Bổ sung @PathVariable và Model
     public String showCreateRecordForm(@PathVariable("appointmentId") Long appointmentId, Model model) { 
         model.addAttribute("appointmentId", appointmentId);
         return "create-medical-record"; 
@@ -36,17 +36,14 @@ public class MedicalRecordController {
 
     @PostMapping("/records/create-for-appointment/{appointmentId}")
     @PreAuthorize("hasRole('DOCTOR')") 
-    // SỬA LỖI: Bổ sung các tham số để nhận dữ liệu từ form
     public String processCreateRecord(@PathVariable("appointmentId") Long appointmentId,
                                       @RequestParam("diagnosis") String diagnosis,
                                       @RequestParam("prescription") String prescription,
                                       RedirectAttributes redirectAttributes) {
         try {
-            // Gọi service để lưu bệnh án
             medicalRecordService.createMedicalRecord(appointmentId, diagnosis, prescription);
             redirectAttributes.addFlashAttribute("successMessage", "Đã tạo bệnh án thành công.");
         } catch (Exception e) {
-            // Xử lý nếu có lỗi
             redirectAttributes.addFlashAttribute("errorMessage", "Lỗi khi tạo bệnh án: " + e.getMessage());
         }
         return "redirect:/doctor/dashboard"; 
@@ -57,18 +54,61 @@ public class MedicalRecordController {
      * Chỉ bệnh nhân sở hữu bệnh án mới có thể xem
      */
     @GetMapping("/patient/records/{id}")
-    // @PreAuthorize sẽ kiểm tra quyền truy cập
     @PreAuthorize("hasRole('PATIENT') and @medicalRecordRepository.findById(#id).get().getPatient().getUsername() == authentication.name")
     public String showMedicalRecordDetail(@PathVariable("id") Long id, Model model) {
         
-        // Lấy Entity MedicalRecord từ CSDL
         MedicalRecord record = medicalRecordRepository.findById(id)
-                // Ném lỗi nếu không tìm thấy (sẽ được GlobalExceptionHandler bắt)
-                .orElseThrow(() -> new com.phenikaa.hospital_management.exception.ResourceNotFoundException("Medical record not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Medical record not found with id: " + id));
         
-        // Gửi toàn bộ Entity ra view
         model.addAttribute("record", record); 
         
         return "medical-record-detail";
+    }
+
+    /**
+     * Hiển thị form cập nhật bệnh án
+     * Chỉ bác sĩ đã tạo bệnh án mới có quyền sửa
+     */
+    @GetMapping("/records/edit/{id}")
+    @PreAuthorize("hasRole('DOCTOR') and @medicalRecordRepository.findById(#id).get().getDoctor().getUsername() == authentication.name")
+    public String showUpdateRecordForm(@PathVariable("id") Long id, Model model) {
+        MedicalRecord record = medicalRecordRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Medical record not found with id: " + id));
+        
+        model.addAttribute("record", record);
+        return "edit-medical-record"; // (File HTML mới sẽ được tạo ở bước 5)
+    }
+
+    /**
+     * Xử lý cập nhật bệnh án
+     */
+    @PostMapping("/records/edit/{id}")
+    @PreAuthorize("hasRole('DOCTOR') and @medicalRecordRepository.findById(#id).get().getDoctor().getUsername() == authentication.name")
+    public String processUpdateRecord(@PathVariable("id") Long id,
+                                      @RequestParam("diagnosis") String diagnosis,
+                                      @RequestParam("prescription") String prescription,
+                                      RedirectAttributes redirectAttributes) {
+        try {
+            medicalRecordService.updateMedicalRecord(id, diagnosis, prescription);
+            redirectAttributes.addFlashAttribute("successMessage", "Đã cập nhật bệnh án thành công.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Lỗi khi cập nhật: " + e.getMessage());
+        }
+        return "redirect:/doctor/dashboard";
+    }
+
+    /**
+     * Xử lý xóa bệnh án
+     */
+    @PostMapping("/records/delete/{id}")
+    @PreAuthorize("hasRole('DOCTOR') and @medicalRecordRepository.findById(#id).get().getDoctor().getUsername() == authentication.name")
+    public String deleteRecord(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        try {
+            medicalRecordService.deleteMedicalRecord(id);
+            redirectAttributes.addFlashAttribute("successMessage", "Đã xóa bệnh án thành công.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Lỗi khi xóa: " + e.getMessage());
+        }
+        return "redirect:/doctor/dashboard";
     }
 }

@@ -12,13 +12,13 @@ import java.util.List;
 public interface MedicalRecordMapper {
 
     @Mapping(source = "doctor.fullName", target = "doctorName")
-    // sử dụng @Named để gọi một hàm custom
+    @Mapping(source = "patient.fullName", target = "patientName")
     @Mapping(source = "diagnosis", target = "diagnosisSummary", qualifiedByName = "abbreviateDiagnosis")
     MedicalRecordDTO toDTO(MedicalRecord medicalRecord);
 
     List<MedicalRecordDTO> toDTOList(List<MedicalRecord> medicalRecords);
 
-    // hàm cus này được MapStruct tự động sử dụng
+    // hàm custom này được MapStruct tự động sử dụng
     @Named("abbreviateDiagnosis")
     default String abbreviateDiagnosis(String diagnosis) {
         if (diagnosis == null || diagnosis.length() <= 100) {

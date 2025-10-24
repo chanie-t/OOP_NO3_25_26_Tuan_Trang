@@ -51,9 +51,13 @@
                     <button type="submit" class="btn btn-success btn-sm">Hoàn thành</button>
                 </form>
 
-                <a th:if="${app.status.name() == 'COMPLETED'}"
+                <a th:if="${app.status.name() == 'COMPLETED' and app.medicalRecord == null}"
                    th:href="@{/records/create-for-appointment/{id}(id=${app.id})}"
                    class="btn btn-info btn-sm">Kê đơn thuốc</a>
+
+                <a th:if="${app.status.name() == 'COMPLETED' and app.medicalRecord != null}"
+                   th:href="@{/records/edit/{id}(id=${app.medicalRecord.id})}"
+                   class="btn btn-warning btn-sm">Xem/Sửa Bệnh án</a>
 
             </td>
         </tr>
@@ -62,6 +66,42 @@
         </tr>
         </tbody>
     </table>
+
+    <div class="card mt-4">
+        <div class="card-header"><h4>Lịch sử Bệnh án đã tạo</h4></div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Tên Bệnh nhân</th> 
+                        <th>Ngày khám</th>
+                        <th>Chẩn đoán (Tóm tắt)</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                     <tr th:each="record : ${medicalRecords}">
+                        <td th:text="${record.patientName}"></td> 
+                        <td th:text="${#temporals.format(record.recordDate, 'dd-MM-yyyy')}"></td>
+                        <td th:text="${record.diagnosisSummary}"></td>
+                        <td>
+                            <a th:href="@{/records/edit/{id}(id=${record.id})}" class="btn btn-warning btn-sm">Sửa</a>
+                            
+                            <form th:action="@{/records/delete/{id}(id=${record.id})}" method="post"
+                                  onsubmit="return confirm('Bạn có chắc chắn muốn xoá bệnh án này?');"
+                                  class="d-inline ms-1">
+                                <button type="submit" class="btn btn-danger btn-sm">Xoá</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(medicalRecords)}">
+                        <td colspan="4" class="text-center">Bạn chưa tạo bệnh án nào.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
 </div>
 </body>
 </html>

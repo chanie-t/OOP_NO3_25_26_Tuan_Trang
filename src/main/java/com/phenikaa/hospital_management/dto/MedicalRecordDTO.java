@@ -10,7 +10,8 @@ import java.time.LocalDateTime;
 @Setter
 public class MedicalRecordDTO {
     private Long id;
-    private String doctorName; // Chỉ cần tên
+    private String doctorName;
+    private String patientName;
     private LocalDateTime recordDate;
-    private String diagnosisSummary; // Chỉ cần tóm tắt
+    private String diagnosisSummary;
 }

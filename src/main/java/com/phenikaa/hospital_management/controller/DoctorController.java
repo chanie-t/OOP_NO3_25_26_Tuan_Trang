@@ -1,9 +1,12 @@
 package com.phenikaa.hospital_management.controller;
 
 import com.phenikaa.hospital_management.dto.ProfileUpdateDTO;
+import com.phenikaa.hospital_management.mapper.MedicalRecordMapper; // <-- THÊM IMPORT
 import com.phenikaa.hospital_management.model.Doctor;
+import com.phenikaa.hospital_management.model.MedicalRecord; // <-- THÊM IMPORT
 import com.phenikaa.hospital_management.repository.AppointmentRepository;
 import com.phenikaa.hospital_management.repository.DoctorRepository;
+import com.phenikaa.hospital_management.repository.MedicalRecordRepository; // <-- THÊM IMPORT
 import com.phenikaa.hospital_management.service.DoctorService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List; // <-- THÊM IMPORT
+
 @Controller
 public class DoctorController {
 
@@ -26,6 +31,13 @@ public class DoctorController {
     @Autowired
     private DoctorService doctorService;
 
+    // --- BỔ SUNG 2 DÒNG TIÊM REPO VÀ MAPPER ---
+    @Autowired
+    private MedicalRecordRepository medicalRecordRepository;
+
+    @Autowired
+    private MedicalRecordMapper medicalRecordMapper;
+
     @GetMapping("/doctor/dashboard")
     public String showDoctorDashboard(Model model, Authentication authentication) {
         String username = authentication.getName();
@@ -33,6 +45,14 @@ public class DoctorController {
 
         model.addAttribute("doctor", doctor);
         model.addAttribute("appointments", appointmentRepository.findByDoctorId(doctor.getId()));
+
+        // --- BỔ SUNG 3 DÒNG LẤY VÀ GỬI MEDICAL RECORDS ---
+        // 1. Lấy danh sách MedicalRecord (Entities) từ CSDL
+        List<MedicalRecord> medicalRecords = medicalRecordRepository.findByDoctorId(doctor.getId());
+        // 2. Dùng Mapper để chuyển đổi sang DTO (để lấy tóm tắt chẩn đoán)
+        // 3. Gửi danh sách DTOs ra view
+        model.addAttribute("medicalRecords", medicalRecordMapper.toDTOList(medicalRecords));
+
 
         return "doctor-dashboard";
     }

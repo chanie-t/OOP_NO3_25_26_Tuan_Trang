@@ -67,5 +67,4 @@ public class DoctorService {
         // 3. Lưu lại
         return doctorRepository.save(doctor);
     }
-    // ---------------------
 }
