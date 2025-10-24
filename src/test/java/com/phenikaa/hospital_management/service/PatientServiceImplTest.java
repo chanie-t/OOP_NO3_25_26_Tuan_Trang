@@ -1,89 +1,204 @@
-// package com.phenikaa.hospital_management.service;
+package com.phenikaa.hospital_management.service;
 
-// import com.phenikaa.hospital_management.model.Patient; // Giả định model của bạn là Patient
-// import com.phenikaa.hospital_management.repository.PatientRepository; // Giả định repository của bạn là PatientRepository
-// import org.junit.jupiter.api.Test;
-// import org.junit.jupiter.api.extension.ExtendWith;
-// import org.mockito.InjectMocks;
-// import org.mockito.Mock;
-// import org.mockito.junit.jupiter.MockitoExtension;
+import com.phenikaa.hospital_management.dto.ProfileUpdateDTO;
+import com.phenikaa.hospital_management.dto.UserRegistrationDTO;
+import com.phenikaa.hospital_management.exception.ResourceNotFoundException;
+import com.phenikaa.hospital_management.mapper.PatientMapper;
+import com.phenikaa.hospital_management.model.Patient;
+import com.phenikaa.hospital_management.repository.DoctorRepository;
+import com.phenikaa.hospital_management.repository.PatientRepository;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-// import java.util.Arrays;
-// import java.util.List;
-// import java.util.Optional;
+import java.time.LocalDate;
+import java.util.Optional;
 
-// import static org.junit.jupiter.api.Assertions.*;
-// import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
 
-// @ExtendWith(MockitoExtension.class)
-// class PatientServiceImplTest {
+@ExtendWith(MockitoExtension.class)
+class PatientServiceTest { // Sửa lại tên class (nếu cần)
 
-//     @Mock
-//     private PatientRepository patientRepository;
+    @Mock
+    private PatientRepository patientRepository;
 
-//     @InjectMocks
-//     private PatientServiceImpl patientService; // Giả định service impl của bạn là PatientServiceImpl
+    @Mock
+    private DoctorRepository doctorRepository;
 
-//     @Test
-//     void testGetAllPatients_ShouldReturnPatientList() {
-//         // Arrange (Sắp đặt)
-//         Patient patient1 = new Patient();
-//         patient1.setId(1L);
-//         patient1.setName("Nguyễn Văn A"); // Giả định thuộc tính là 'name'
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
-//         Patient patient2 = new Patient();
-//         patient2.setId(2L);
-//         patient2.setName("Trần Thị B");
+    @Mock
+    private PatientMapper patientMapper;
 
-//         List<Patient> mockPatientList = Arrays.asList(patient1, patient2);
+    @InjectMocks
+    private PatientService patientService; // Lớp service của bạn
+
+    private Patient mockPatient;
+    private UserRegistrationDTO registrationDTO;
+    private ProfileUpdateDTO profileDTO;
+
+    @BeforeEach
+    void setUp() {
+        // --- Mock đối tượng Patient ---
+        mockPatient = new Patient();
+        mockPatient.setId(1L);
+        mockPatient.setUsername("testuser");
+        mockPatient.setEmail("test@example.com");
+        mockPatient.setFullName("Test User");
+        mockPatient.setActive(true);
+
+        // --- Mock DTO đăng ký ---
+        registrationDTO = new UserRegistrationDTO();
+        registrationDTO.setUsername("newuser");
+        registrationDTO.setFullName("New User");
+        registrationDTO.setEmail("new@example.com");
+        registrationDTO.setPassword("password123");
+
+        // --- Mock DTO cập nhật ---
+        profileDTO = new ProfileUpdateDTO();
+        profileDTO.setFullName("Test User Updated");
+        profileDTO.setEmail("updated@example.com");
+        profileDTO.setPhoneNumber("0987654321");
+        profileDTO.setDateOfBirth(LocalDate.of(2000, 1, 1));
+    }
+
+    @Test
+    void testRegisterNewPatient_Success() {
+        // Arrange
+        Patient mappedPatient = new Patient(); // Giả lập mapper trả về
+        mappedPatient.setUsername(registrationDTO.getUsername());
+
+        when(patientMapper.toEntity(any(UserRegistrationDTO.class))).thenReturn(mappedPatient);
+        when(passwordEncoder.encode(anyString())).thenReturn("hashedPassword");
+        when(patientRepository.save(any(Patient.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        // Act
+        Patient savedPatient = patientService.registerNewPatient(registrationDTO);
+
+        // Assert
+        assertNotNull(savedPatient);
+        assertEquals("newuser", savedPatient.getUsername());
+        assertEquals("hashedPassword", savedPatient.getPassword());
+        assertEquals("PATIENT", savedPatient.getRole());
+        assertTrue(savedPatient.isActive());
         
-//         // "Dạy" cho mock repository phải làm gì
-//         when(patientRepository.findAll()).thenReturn(mockPatientList);
+        // Verify (Xác minh)
+        verify(patientMapper, times(1)).toEntity(registrationDTO);
+        verify(passwordEncoder, times(1)).encode("password123");
+        verify(patientRepository, times(1)).save(mappedPatient);
+    }
 
-//         // Act (Hành động)
-//         List<Patient> result = patientService.getAllPatients(); // Giả định tên phương thức là getAllPatients
+    @Test
+    void testFindByUsername_Success() {
+        // Arrange
+        when(patientRepository.findByUsername("testuser")).thenReturn(Optional.of(mockPatient));
 
-//         // Assert (Khẳng định)
-//         assertNotNull(result);
-//         assertEquals(2, result.size());
-//         assertEquals("Nguyễn Văn A", result.get(0).getName());
+        // Act
+        Patient foundPatient = patientService.findByUsername("testuser");
 
-//         // Verify (Xác minh)
-//         verify(patientRepository, times(1)).findAll();
-//     }
+        // Assert
+        assertNotNull(foundPatient);
+        assertEquals("testuser", foundPatient.getUsername());
+    }
+
+    @Test
+    void testFindByUsername_NotFound_ShouldThrowException() {
+        // Arrange
+        when(patientRepository.findByUsername("nonexistent")).thenReturn(Optional.empty());
+
+        // Act & Assert
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> {
+            patientService.findByUsername("nonexistent");
+        });
+
+        assertEquals("Patient not found with username: nonexistent", exception.getMessage());
+    }
+
+    @Test
+    void testUpdateProfile_Success_EmailChanged() {
+        // Arrange
+        when(patientRepository.findByUsername("testuser")).thenReturn(Optional.of(mockPatient));
+        // Giả lập email mới chưa tồn tại
+        when(patientRepository.findByEmail("updated@example.com")).thenReturn(Optional.empty());
+        when(doctorRepository.findByEmail("updated@example.com")).thenReturn(Optional.empty());
+        when(patientRepository.save(any(Patient.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        // Act
+        Patient updatedPatient = patientService.updateProfile("testuser", profileDTO);
+
+        // Assert
+        assertNotNull(updatedPatient);
+        assertEquals("Test User Updated", updatedPatient.getFullName());
+        assertEquals("updated@example.com", updatedPatient.getEmail());
+        assertEquals("0987654321", updatedPatient.getPhoneNumber());
+        assertEquals(LocalDate.of(2000, 1, 1), updatedPatient.getDateOfBirth());
+        
+        // Verify
+        verify(patientRepository, times(1)).save(mockPatient);
+    }
+
+    @Test
+    void testUpdateProfile_EmailAlreadyExists_ShouldThrowException() {
+        // Arrange
+        when(patientRepository.findByUsername("testuser")).thenReturn(Optional.of(mockPatient));
+        // Giả lập email mới đã bị bác sĩ sử dụng
+        when(patientRepository.findByEmail("updated@example.com")).thenReturn(Optional.empty());
+        when(doctorRepository.findByEmail("updated@example.com")).thenReturn(Optional.of(new com.phenikaa.hospital_management.model.Doctor()));
+
+        // Act & Assert
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            patientService.updateProfile("testuser", profileDTO);
+        });
+
+        assertEquals("Email updated@example.com đã tồn tại.", exception.getMessage());
+        
+        // Verify
+        verify(patientRepository, never()).save(any(Patient.class)); // Đảm bảo không lưu
+    }
     
-//     @Test
-//     void testGetPatientById_WhenPatientExists_ShouldReturnPatient() {
-//         // Arrange
-//         Patient mockPatient = new Patient();
-//         mockPatient.setId(1L);
-//         mockPatient.setName("Nguyễn Văn A");
+    @Test
+    void testUpdateProfile_Success_EmailNotChanged() {
+        // Arrange
+        // Đặt email DTO giống email gốc
+        profileDTO.setEmail("test@example.com"); 
         
-//         when(patientRepository.findById(1L)).thenReturn(Optional.of(mockPatient));
+        when(patientRepository.findByUsername("testuser")).thenReturn(Optional.of(mockPatient));
+        when(patientRepository.save(any(Patient.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-//         // Act
-//         Optional<Patient> result = patientService.getPatientById(1L); // Giả định tên phương thức là getPatientById
+        // Act
+        Patient updatedPatient = patientService.updateProfile("testuser", profileDTO);
 
-//         // Assert
-//         assertTrue(result.isPresent());
-//         assertEquals("Nguyễn Văn A", result.get().getName());
+        // Assert
+        assertEquals("Test User Updated", updatedPatient.getFullName());
+        assertEquals("test@example.com", updatedPatient.getEmail()); // Email không đổi
+
+        // Verify
+        // Xác minh rằng hàm tìm email (patientRepo.findByEmail, doctorRepo.findByEmail) KHÔNG được gọi
+        verify(patientRepository, never()).findByEmail(anyString());
+        verify(doctorRepository, never()).findByEmail(anyString());
+        verify(patientRepository, times(1)).save(mockPatient);
+    }
+
+    @Test
+    void testDeactivatePatient_Success() {
+        // Arrange
+        when(patientRepository.findByUsername("testuser")).thenReturn(Optional.of(mockPatient));
         
-//         // Verify
-//         verify(patientRepository, times(1)).findById(1L);
-//     }
+        // Act
+        patientService.deactivatePatient("testuser");
 
-//     @Test
-//     void testGetPatientById_WhenPatientDoesNotExist_ShouldReturnEmptyOptional() {
-//         // Arrange
-//         when(patientRepository.findById(99L)).thenReturn(Optional.empty());
-
-//         // Act
-//         Optional<Patient> result = patientService.getPatientById(99L);
-
-//         // Assert
-//         assertFalse(result.isPresent());
-
-//         // Verify
-//         verify(patientRepository, times(1)).findById(99L);
-//     }
-// }
+        // Assert
+        assertFalse(mockPatient.isActive()); // Kiểm tra đối tượng mock đã bị thay đổi
+        
+        // Verify
+        verify(patientRepository, times(1)).save(mockPatient); // Đảm bảo đã gọi save với trạng thái mới
+    }
+}

@@ -9,49 +9,73 @@
 
     <style>
         body {
-            padding-top: 3.5rem;
+            padding-top: 3rem;
+            padding-bottom: 3rem;
+            color: rgb(var(--bs-tertiary-color-rgb));
         }
-    
+        
         .carousel {
             margin-bottom: 4rem;
         }
-
+        
         .carousel-caption {
             bottom: 3rem;
             z-index: 10;
-            background-color: rgba(0, 0, 0, 0.3);
-            border-radius: 0.5rem;
-            padding: 1rem;
-        }
-
-        .carousel-item {
-            height: 32rem;
-            background-color: #555;
         }
         
-        .carousel-item img {
-            object-fit: cover;
-            height: 100%;
-            width: 100%;
+        .carousel-item {
+            height: 32rem;
         }
-
+        
         .marketing .col-lg-4 {
             margin-bottom: 1.5rem;
             text-align: center;
         }
-
-        .marketing h2 {
-            font-weight: 400;
+        
+        .marketing .col-lg-4 p {
+            margin-right: .75rem;
+            margin-left: .75rem;
         }
         
+        .featurette-divider {
+            margin: 5rem 0;
+        }
+        
+        .featurette-heading {
+            letter-spacing: -.05rem;
+        }
+        
+        @media (min-width: 40em) {
+        
+            .carousel-caption p {
+                margin-bottom: 1.25rem;
+                font-size: 1.25rem;
+                line-height: 1.4;
+            }
+        
+            .featurette-heading {
+                font-size: 50px;
+            }
+        }
+        
+        @media (min-width: 62em) {
+            .featurette-heading {
+                margin-top: 7rem;
+            }
+        }
+
         .bd-placeholder-img {
             font-size: 1.125rem;
             text-anchor: middle;
             -webkit-user-select: none;
             -moz-user-select: none;
             user-select: none;
-            background-color: #777;
-            color: #fff;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
         }
     </style>
 </head>
@@ -61,7 +85,8 @@
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
             <div class="container-fluid">
                 <a class="navbar-brand" th:href="@{/}">Quản lý Bệnh viện</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -73,41 +98,47 @@
                             <a class="nav-link" th:href="@{/patient/doctors}">Tìm Bác sĩ</a>
                         </li>
                     </ul>
-                    
+
                     <div class="d-flex" sec:authorize="isAnonymous()">
                         <a th:href="@{/register}" class="btn btn-outline-info me-2">Đăng ký</a>
                         <a th:href="@{/login}" class="btn btn-outline-success">Đăng nhập</a>
                     </div>
-                    
+
                     <div class="d-flex align-items-center" sec:authorize="isAuthenticated()">
                         <span class="navbar-text me-3">
                             Chào, <strong sec:authentication="name">Username</strong>
                         </span>
-                        
-                        <a sec:authorize="hasRole('PATIENT')" th:href="@{/patient/dashboard}" class="btn btn-primary me-2">Dashboard</a>
-                        <a sec:authorize="hasRole('DOCTOR')" th:href="@{/doctor/dashboard}" class="btn btn-primary me-2">Dashboard</a>
-                        
+
+                        <a sec:authorize="hasRole('PATIENT')" th:href="@{/patient/dashboard}"
+                            class="btn btn-primary me-2">Dashboard</a>
+                        <a sec:authorize="hasRole('DOCTOR')" th:href="@{/doctor/dashboard}"
+                            class="btn btn-primary me-2">Dashboard</a>
+
                         <form th:action="@{/logout}" method="post" class="d-inline">
                             <button type="submit" class="btn btn-outline-danger">Đăng xuất</button>
                         </form>
                     </div>
-                    
+
                 </div>
             </div>
         </nav>
     </header>
 
     <main>
+
         <div id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel">
             <div class="carousel-indicators">
-                <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true"
+                    aria-label="Slide 1"></button>
                 <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
                 <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
             </div>
             <div class="carousel-inner">
-                
                 <div class="carousel-item active">
-                    <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect></svg>
+                    <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
+                        aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+                        <rect width="100%" height="100%" fill="var(--bs-secondary-color)" />
+                    </svg>
                     <div class="container">
                         <div class="carousel-caption text-start">
                             <h1>Dành cho Bệnh nhân.</h1>
@@ -116,9 +147,11 @@
                         </div>
                     </div>
                 </div>
-                
                 <div class="carousel-item">
-                    <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#444"></rect></svg>
+                    <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
+                        aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+                        <rect width="100%" height="100%" fill="var(--bs-secondary-color)" />
+                    </svg>
                     <div class="container">
                         <div class="carousel-caption">
                             <h1>Dành cho Bác sĩ.</h1>
@@ -127,9 +160,11 @@
                         </div>
                     </div>
                 </div>
-                
                 <div class="carousel-item">
-                    <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#333"></rect></svg>
+                    <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
+                        aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+                        <rect width="100%" height="100%" fill="var(--bs-secondary-color)" />
+                    </svg>
                     <div class="container">
                         <div class="carousel-caption text-end">
                             <h1>Tham gia ngay hôm nay.</h1>
@@ -149,36 +184,113 @@
             </button>
         </div>
 
+
         <div class="container marketing">
+
             <div class="row">
                 <div class="col-lg-4">
-                    <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect></svg>
+                    <svg class="bd-placeholder-img rounded-circle" width="140" height="140"
+                        xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder"
+                        preserveAspectRatio="xMidYMid slice" focusable="false">
+                        <title>Placeholder</title>
+                        <rect width="100%" height="100%" fill="var(--bs-secondary-color)" />
+                    </svg>
                     <h2 class="fw-normal">Quản lý Hồ sơ</h2>
                     <p>Dễ dàng cập nhật thông tin cá nhân, email, số điện thoại và ngày sinh của bạn bất cứ lúc nào.</p>
-                    <p><a class="btn btn-secondary" th:href="@{/login}">Chi tiết »</a></p>
-                </div>
-                <div class="col-lg-4">
-                    <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect></svg>
+                    <p><a class="btn btn-secondary" th:href="@{/login}">Chi tiết &raquo;</a></p>
+                </div><div class="col-lg-4">
+                    <svg class="bd-placeholder-img rounded-circle" width="140" height="140"
+                        xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder"
+                        preserveAspectRatio="xMidYMid slice" focusable="false">
+                        <title>Placeholder</title>
+                        <rect width="100%" height="100%" fill="var(--bs-secondary-color)" />
+                    </svg>
                     <h2 class="fw-normal">Xem Lịch sử Khám</h2>
                     <p>Bệnh nhân có thể xem lại toàn bộ lịch sử các cuộc hẹn đã đặt và chi tiết đơn thuốc, chẩn đoán từ bác sĩ.</p>
-                    <p><a class="btn btn-secondary" th:href="@{/patient/dashboard}">Chi tiết »</a></p>
-                </div>
-                <div class="col-lg-4">
-                    <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="var(--bs-secondary-color)"></rect></svg>
+                    <p><a class="btn btn-secondary" th:href="@{/patient/dashboard}">Chi tiết &raquo;</a></p>
+                </div><div class="col-lg-4">
+                    <svg class="bd-placeholder-img rounded-circle" width="140" height="140"
+                        xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder"
+                        preserveAspectRatio="xMidYMid slice" focusable="false">
+                        <title>Placeholder</title>
+                        <rect width="100%" height="100%" fill="var(--bs-secondary-color)" />
+                    </svg>
                     <h2 class="fw-normal">Chuyên gia Hàng đầu</h2>
                     <p>Hệ thống của chúng tôi có đội ngũ bác sĩ giàu kinh nghiệm với nhiều chuyên khoa khác nhau, sẵn sàng phục vụ.</p>
-                    <p><a class="btn btn-secondary" th:href="@{/patient/doctors}">Chi tiết »</a></p>
+                    <p><a class="btn btn-secondary" th:href="@{/patient/doctors}">Chi tiết &raquo;</a></p>
+                </div></div><hr class="featurette-divider">
+
+            <div class="row featurette">
+                <div class="col-md-7">
+                    <h2 class="featurette-heading fw-normal lh-1">Đặt lịch hẹn. <span class="text-body-secondary">Nhanh
+                            chóng và tiện lợi.</span></h2>
+                    <p class="lead">Tìm kiếm bác sĩ theo chuyên khoa, xem lịch trống và đặt hẹn chỉ trong vài cú nhấp chuột.
+                        Không cần chờ đợi, không cần gọi điện thoại.</p>
+                </div>
+                <div class="col-md-5">
+                    <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500"
+                        height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500"
+                        preserveAspectRatio="xMidYMid slice" focusable="false">
+                        <title>Placeholder</title>
+                        <rect width="100%" height="100%" fill="var(--bs-secondary-bg)" /><text x="50%" y="50%"
+                            fill="var(--bs-secondary-color)" dy=".3em">500x500</text>
+                    </svg>
                 </div>
             </div>
-            
+
             <hr class="featurette-divider">
 
-        </div><footer class="container">
+            <div class="row featurette">
+                <div class="col-md-7 order-md-2">
+                    <h2 class="featurette-heading fw-normal lh-1">Bệnh án điện tử. <span class="text-body-secondary">An
+                            toàn và bảo mật.</span></h2>
+                    <p class="lead">Bác sĩ tạo và quản lý bệnh án, đơn thuốc trực tuyến. Bệnh nhân có thể truy cập lịch sử khám
+                        bệnh của mình mọi lúc, mọi nơi.</p>
+                </div>
+                <div class="col-md-5 order-md-1">
+                    <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500"
+                        height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500"
+                        preserveAspectRatio="xMidYMid slice" focusable="false">
+                        <title>Placeholder</title>
+                        <rect width="100%" height="100%" fill="var(--bs-secondary-bg)" /><text x="50%" y="50%"
+                            fill="var(--bs-secondary-color)" dy=".3em">500x500</text>
+                    </svg>
+                </div>
+            </div>
+
+            <hr class="featurette-divider">
+
+            <div class="row featurette">
+                <div class="col-md-7">
+                    <h2 class="featurette-heading fw-normal lh-1">Tích hợp Spring Security. <span
+                            class="text-body-secondary">Phân quyền rõ ràng.</span></h2>
+                    <p class="lead">Hệ thống phân chia rõ ràng vai trò Bệnh nhân (chỉ xem/đặt lịch) và Bác sĩ (quản lý khám
+                        chữa bệnh), đảm bảo chỉ ai có quyền mới truy cập được đúng chức năng.</p>
+                </div>
+                <div class="col-md-5">
+                    <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500"
+                        height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500"
+                        preserveAspectRatio="xMidYMid slice" focusable="false">
+                        <title>Placeholder</title>
+                        <rect width="100%" height="100%" fill="var(--bs-secondary-bg)" /><text x="50%" y="50%"
+                            fill="var(--bs-secondary-color)" dy=".3em">500x500</text>
+                    </svg>
+                </div>
+            </div>
+
+            <hr class="featurette-divider">
+
+            </div><footer class="container">
             <p class="float-end"><a href="#">Về đầu trang</a></p>
-            <p>© 2025 Nhóm 04 (Tuấn & Trang) - Dự án OOP · <a href="#">Quyền riêng tư</a> · <a href="#">Điều khoản</a></p>
+            <p>&copy; 2025 Nhóm 04 (Tuấn & Trang) - Dự án OOP &middot; <a href="#">Quyền riêng tư</a> &middot; <a
+                    href="#">Điều khoản</a></p>
         </footer>
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
 </body>
 </html>
