@@ -5,9 +5,9 @@ import com.phenikaa.hospital_management.repository.PatientRepository;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component; // <-- THÊM DÒNG NÀY
+import org.springframework.stereotype.Component;
 
-@Component // <-- THÊM ANNOTATION NÀY
+@Component
 public class UniqueUsernameValidator implements ConstraintValidator<UniqueUsername, String> {
 
     @Autowired
@@ -18,15 +18,14 @@ public class UniqueUsernameValidator implements ConstraintValidator<UniqueUserna
     @Override
     public boolean isValid(String username, ConstraintValidatorContext context) {
         if (username == null || username.isEmpty()) {
-            return true; // @NotBlank sẽ xử lý
+            return true;
         }
-        // Thêm kiểm tra null để phòng trường hợp inject thất bại (dù @Component nên khắc phục)
+        // Kiểm tra nếu các repository được inject đúng cách
         if (patientRepository == null || doctorRepository == null) {
              System.err.println("CẢNH BÁO: Repositories chưa được inject vào UniqueUsernameValidator!");
-             // Có thể coi là không hợp lệ nếu không kiểm tra được
              return false; 
         }
-        // Hợp lệ nếu không tồn tại ở cả 2 bảng
+        // Kiểm tra username trong cả hai repository
         return patientRepository.findByUsername(username).isEmpty()
                 && doctorRepository.findByUsername(username).isEmpty();
     }

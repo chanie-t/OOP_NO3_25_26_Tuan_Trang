@@ -18,14 +18,14 @@ public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, St
     @Override
     public boolean isValid(String email, ConstraintValidatorContext context) {
         if (email == null || email.isEmpty()) {
-            return true; // @NotBlank sẽ xử lý
+            return true;
         }
          // Thêm kiểm tra null
         if (patientRepository == null || doctorRepository == null) {
              System.err.println("CẢNH BÁO: Repositories chưa được inject vào UniqueEmailValidator!");
              return false;
         }
-        // Hợp lệ nếu không tồn tại ở cả 2 bảng
+        // Kiểm tra email trong hai repository
         return patientRepository.findByEmail(email).isEmpty()
                 && doctorRepository.findByEmail(email).isEmpty();
     }

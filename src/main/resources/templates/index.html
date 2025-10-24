@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -36,6 +36,119 @@
             </div>
         </div>
     </div>
+</div>
+
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Hệ thống Quản lý Bệnh viện</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-5">
+
+    <div class="p-5 mb-4 bg-light rounded-3 text-center">
+        <div class="container-fluid py-5">
+            <h1 class="display-5 fw-bold">Chào mừng đến với Hệ thống Quản lý Bệnh viện</h1>
+            <p class="fs-4">Nền tảng giúp kết nối Bác sĩ và Bệnh nhân một cách hiệu quả.</p>
+        </div>
+    </div>
+
+    <div sec:authorize="isAnonymous()">
+        <div class="row justify-content-center g-4">
+            <div class="col-md-5">
+                <div class="card">
+                    <div class="card-header">Đăng nhập</div>
+                    <div class="card-body">
+                        <div th:if="${param.error}" class="alert alert-danger">
+                            Sai tên đăng nhập hoặc mật khẩu.
+                        </div>
+                        <div th:if="${param.logout}" class="alert alert-success">
+                            Bạn đã đăng xuất thành công.
+                        </div>
+                        <div th:if="${param.success}" class="alert alert-success">
+                            Đăng ký thành công! Vui lòng đăng nhập.
+                        </div>
+                        <form th:action="@{/login}" method="post">
+                            <div class="mb-3">
+                                <label for="usernameLogin" class="form-label">Tên đăng nhập</label>
+                                <input type="text" id="usernameLogin" name="username" class="form-control" required autofocus>
+                            </div>
+                            <div class="mb-3">
+                                <label for="passwordLogin" class="form-label">Mật khẩu</label>
+                                <input type="password" id="passwordLogin" name="password" class="form-control" required>
+                            </div>
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="remember-me" name="remember-me">
+                                <label class="form-check-label" for="remember-me">Ghi nhớ tôi</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Đăng nhập</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-7">
+                <div class="card">
+                    <div class="card-header">Đăng ký tài khoản Bệnh nhân mới</div>
+                    <div class="card-body">
+                        <form th:action="@{/register}" th:object="${registrationDTO}" method="post">
+                            <div class="mb-3">
+                                <label for="fullNameReg" class="form-label">Họ và Tên</label>
+                                <input type="text" id="fullNameReg" th:field="*{fullName}" class="form-control"
+                                       th:classappend="${#fields.hasErrors('fullName') ? 'is-invalid' : ''}">
+                                <div th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}" class="invalid-feedback"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="usernameReg" class="form-label">Tên đăng nhập</label>
+                                    <input type="text" id="usernameReg" th:field="*{username}" class="form-control"
+                                           th:classappend="${#fields.hasErrors('username') ? 'is-invalid' : ''}">
+                                    <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="invalid-feedback"></div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="emailReg" class="form-label">Email</label>
+                                    <input type="email" id="emailReg" th:field="*{email}" class="form-control"
+                                           th:classappend="${#fields.hasErrors('email') ? 'is-invalid' : ''}">
+                                    <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="passwordReg" class="form-label">Mật khẩu</label>
+                                <input type="password" id="passwordReg" th:field="*{password}" class="form-control"
+                                       th:classappend="${#fields.hasErrors('password') ? 'is-invalid' : ''}">
+                                <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="invalid-feedback"></div>
+                            </div>
+                            <button type="submit" class="btn btn-success w-100">Đăng ký</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div sec:authorize="isAuthenticated()">
+        <div class="text-center mb-4">
+            <h4>Chào mừng trở lại, <span sec:authentication="name"></span>!</h4>
+            <p>Bạn đã đăng nhập với vai trò:
+                <span sec:authorize="hasRole('PATIENT')">Bệnh nhân</span>
+                <span sec:authorize="hasRole('DOCTOR')">Bác sĩ</span>
+                <span sec:authorize="hasRole('ADMIN')">Quản trị viên</span>
+            </p>
+
+            <a sec:authorize="hasRole('PATIENT')" th:href="@{/patient/dashboard}" class="btn btn-primary">Đi đến Dashboard Bệnh nhân</a>
+            <a sec:authorize="hasRole('DOCTOR')" th:href="@{/doctor/dashboard}" class="btn btn-primary">Đi đến Dashboard Bác sĩ</a>
+            <form th:action="@{/logout}" method="post" class="d-inline ms-2">
+                <button type="submit" class="btn btn-danger">Đăng xuất</button>
+            </form>
+        </div>
+    </div>
+
 </div>
 
 </body>

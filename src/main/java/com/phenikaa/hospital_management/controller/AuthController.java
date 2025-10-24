@@ -35,17 +35,13 @@ public class AuthController {
         
         // Kiểm tra lỗi validation (bao gồm cả @UniqueUsername và @UniqueEmail)
         if (bindingResult.hasErrors()) {
-            // Log lỗi validation nếu cần (dùng logger thay System.out)
-            // bindingResult.getAllErrors().forEach(error -> log.warn("Validation Error: {}", error.getDefaultMessage()));
-            return "register"; // Trả về form và hiển thị lỗi
+            return "register"; // trả về form và hiển thị lỗi
         }
 
         try {
             patientService.registerNewPatient(registrationDTO);
             return "redirect:/login?success";
         } catch (Exception e) {
-            // Mặc dù đã có GlobalExceptionHandler, thêm log ở đây có thể hữu ích
-            // log.error("Lỗi khi đăng ký:", e); 
             model.addAttribute("errorMessage", "Đã có lỗi xảy ra trong quá trình đăng ký.");
             // Giữ lại DTO đã nhập để người dùng không phải nhập lại
             model.addAttribute("registrationDTO", registrationDTO); 
