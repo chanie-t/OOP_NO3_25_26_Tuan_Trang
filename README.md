@@ -16,6 +16,11 @@
 * **Link Github Repository:** `[VUI LÒNG DÁN LINK REPO CỦA BẠN VÀO ĐÂY]`
 * **Link Demo Youtube:** `[VUI LÒNG DÁN LINK YOUTUBE DEMO CỦA BẠN VÀO ĐÂY]`
 * **Link Deploy (chạy toàn cầu):** `[VUI LÒNG DÁN LINK DEPLOY CỦA BẠN VÀO ĐÂY (VÍ DỤ: RENDER, AWS, AZURE...)]`
+## 2. Thông tin
+
+* **Link Github Repository:** `[link]`
+* **Link Demo Youtube:** `[link]`
+* **Link Deploy (chạy toàn cầu):** `[link]`
 
 ---
 
@@ -50,30 +55,29 @@ Hệ thống cho phép hai vai trò người dùng (`PATIENT` và `DOCTOR`) tư�
 
 ### 5.1 UML Class Diagram
 
-(Mô tả 4 đối tượng chính: Patient, Doctor, Appointment, và MedicalRecord)
+(Mô tả 4 đối tượng chính `Patient`, `Doctor`, `Appointment`, `MedicalRecord` và thể hiện rõ tính kế thừa từ lớp cha `User`, cũng như các lớp DTO và Mapper)
 
-<img width="757" height="738" alt="hospital class diagram" src="https://github.com/user-attachments/assets/233693ab-0f3f-44b1-a549-a57dfc52b3a6" />
+<img width="1727" height="719" alt="class diagram" src="images/class diagram.png">
 
 ### 5.2 Sơ đồ thuật toán (Sequence Diagram)
 
-#### 5.2.1 CRUD CREATE (Tạo Bệnh án)
+#### 5.2.1 Chức năng lõi: Bệnh nhân đặt lịch hẹn
 
-<img width="1803" height="529" alt="CRUD Create" src="https://github.com/user-attachments/assets/03414ce0-74f1-4d17-8026-d9a755b08cde" />
+<img width="1255" height="451" alt="chức năng lõi" src="images/Chức năng lõi.png">
 
-#### 5.2.2 CRUD READ (Xem danh sách Bệnh án)
+#### 5.2.2 CRUD Create: Bác sĩ tạo Bệnh án
 
-<img width="1685" height="514" alt="xem danh sách bệnh nhân (CRUD Read)" src="https://github.com/user-attachments/assets/1b680a6f-ecad-40c4-a06a-7b68d79b4fbe" />
+<img width="1322" height="451" alt="CRUD bsi tạo bệnh án" src="images/CRUD bsi tạo bệnh án.png" />
 
-#### 5.2.3 CRUD UPDATE (Cập nhật Bệnh án)
+#### 5.2.3 CRUD Read: Bệnh nhân xem chi tiết Bệnh án
 
-<img width="2251" height="800" alt="cập nhật lịch hẹn (CRUD Update)" src="https://github.com/user-attachments/assets/40cc707e-2989-4a90-a3c5-8cf9996a1436" />
+<img width="717" height="422" alt="CRUD bệnh nhân xem bệnh án" src="images/CRUD bệnh nhân xem bệnh án.png" />
 
-#### 5.2.4 CRUD DELETE (Xóa Bệnh án)
+#### 5.2.4 CRUD Update: Cập nhật Hồ sơ cá nhân
 
-<img width="2180" height="698" alt="huỷ lịch hẹn (CRUD Delete)" src="https://github.com/user-attachments/assets/3d663488-edda-4b05-a010-901b891ee2ac" />
-
-#### 5.2.5 Chức năng lõi (Bệnh nhân đặt lịch hẹn)
-
-<img width="2163" height="816" alt="bệnh nhân đặt lịch hẹn" src="https://github.com/user-attachments/assets/c19bd427-2648-4abd-835f-b1ba6ff1b558" />
+<img width="1182" height="546" alt="CRUD hồ sơ cá nhân" src="images/CRUD bsi tạo bệnh án.png" />
 
 
+#### 5.2.5 CRUD Delete: Bệnh nhân hủy lịch hẹn
+
+<img width="920" height="493" alt="CRUD bệnh nhân huỷ lịch hẹn" src="images/CRUD bệnh nhân huỷ lịch hẹn.png" />
