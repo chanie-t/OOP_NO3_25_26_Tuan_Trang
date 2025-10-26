@@ -57,7 +57,6 @@ class AppointmentServiceTest {
         mockAppointment.setDoctor(mockDoctor);
         mockAppointment.setStatus(AppointmentStatus.SCHEDULED);
         
-        // THÊM: Chuẩn bị DTO mẫu
         mockRequestDTO = new AppointmentRequestDTO();
         mockRequestDTO.setDoctorId(1L);
         mockRequestDTO.setAppointmentTime(LocalDateTime.now().plusDays(1));
@@ -70,13 +69,12 @@ class AppointmentServiceTest {
         when(doctorRepository.findById(1L)).thenReturn(Optional.of(mockDoctor));
         when(appointmentRepository.save(any(Appointment.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        // THAY ĐỔI: Gọi hàm với DTO
         Appointment created = appointmentService.createAppointment(1L, mockRequestDTO);
 
         assertNotNull(created);
         assertEquals(AppointmentStatus.SCHEDULED, created.getStatus());
         assertEquals(mockPatient, created.getPatient());
-        assertEquals("Dau dau", created.getReason()); // Kiểm tra lý do từ DTO
+        assertEquals("Dau dau", created.getReason()); // Kiểm tra lý do
         verify(appointmentRepository, times(1)).save(any(Appointment.class)); 
     }
 
@@ -84,7 +82,6 @@ class AppointmentServiceTest {
     void testCreateAppointment_PatientNotFound_ShouldThrowException() {
         when(patientRepository.findById(1L)).thenReturn(Optional.empty());
 
-        // THAY ĐỔI: Gọi hàm với DTO
         ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> {
             appointmentService.createAppointment(1L, mockRequestDTO);
         });

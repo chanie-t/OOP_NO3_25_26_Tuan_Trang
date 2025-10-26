@@ -24,7 +24,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class PatientServiceTest { // Sửa lại tên class (nếu cần)
+class PatientServiceTest {
 
     @Mock
     private PatientRepository patientRepository;
@@ -39,7 +39,7 @@ class PatientServiceTest { // Sửa lại tên class (nếu cần)
     private PatientMapper patientMapper;
 
     @InjectMocks
-    private PatientService patientService; // Lớp service của bạn
+    private PatientService patientService;
 
     private Patient mockPatient;
     private UserRegistrationDTO registrationDTO;
@@ -72,25 +72,21 @@ class PatientServiceTest { // Sửa lại tên class (nếu cần)
 
     @Test
     void testRegisterNewPatient_Success() {
-        // Arrange
-        Patient mappedPatient = new Patient(); // Giả lập mapper trả về
+        Patient mappedPatient = new Patient();
         mappedPatient.setUsername(registrationDTO.getUsername());
 
         when(patientMapper.toEntity(any(UserRegistrationDTO.class))).thenReturn(mappedPatient);
         when(passwordEncoder.encode(anyString())).thenReturn("hashedPassword");
         when(patientRepository.save(any(Patient.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        // Act
         Patient savedPatient = patientService.registerNewPatient(registrationDTO);
 
-        // Assert
         assertNotNull(savedPatient);
         assertEquals("newuser", savedPatient.getUsername());
         assertEquals("hashedPassword", savedPatient.getPassword());
         assertEquals("PATIENT", savedPatient.getRole());
         assertTrue(savedPatient.isActive());
         
-        // Verify (Xác minh)
         verify(patientMapper, times(1)).toEntity(registrationDTO);
         verify(passwordEncoder, times(1)).encode("password123");
         verify(patientRepository, times(1)).save(mappedPatient);
@@ -126,7 +122,7 @@ class PatientServiceTest { // Sửa lại tên class (nếu cần)
     void testUpdateProfile_Success_EmailChanged() {
         // Arrange
         when(patientRepository.findByUsername("testuser")).thenReturn(Optional.of(mockPatient));
-        // Giả lập email mới chưa tồn tại
+        // giả lập email mới chưa tồn tại
         when(patientRepository.findByEmail("updated@example.com")).thenReturn(Optional.empty());
         when(doctorRepository.findByEmail("updated@example.com")).thenReturn(Optional.empty());
         when(patientRepository.save(any(Patient.class))).thenAnswer(invocation -> invocation.getArgument(0));
@@ -149,7 +145,7 @@ class PatientServiceTest { // Sửa lại tên class (nếu cần)
     void testUpdateProfile_EmailAlreadyExists_ShouldThrowException() {
         // Arrange
         when(patientRepository.findByUsername("testuser")).thenReturn(Optional.of(mockPatient));
-        // Giả lập email mới đã bị bác sĩ sử dụng
+        // giả lập email mới đã bị bác sĩ sử dụng
         when(patientRepository.findByEmail("updated@example.com")).thenReturn(Optional.empty());
         when(doctorRepository.findByEmail("updated@example.com")).thenReturn(Optional.of(new com.phenikaa.hospital_management.model.Doctor()));
 
@@ -167,7 +163,7 @@ class PatientServiceTest { // Sửa lại tên class (nếu cần)
     @Test
     void testUpdateProfile_Success_EmailNotChanged() {
         // Arrange
-        // Đặt email DTO giống email gốc
+        // đặt email DTO giống email gốc
         profileDTO.setEmail("test@example.com"); 
         
         when(patientRepository.findByUsername("testuser")).thenReturn(Optional.of(mockPatient));
@@ -181,7 +177,7 @@ class PatientServiceTest { // Sửa lại tên class (nếu cần)
         assertEquals("test@example.com", updatedPatient.getEmail()); // Email không đổi
 
         // Verify
-        // Xác minh rằng hàm tìm email (patientRepo.findByEmail, doctorRepo.findByEmail) KHÔNG được gọi
+        // Xác minh rằng hàm tìm email (patientRepo.findByEmail, doctorRepo.findByEmail) 0 được gọi
         verify(patientRepository, never()).findByEmail(anyString());
         verify(doctorRepository, never()).findByEmail(anyString());
         verify(patientRepository, times(1)).save(mockPatient);
