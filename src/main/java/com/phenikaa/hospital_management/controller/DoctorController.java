@@ -46,11 +46,10 @@ public class DoctorController {
         model.addAttribute("doctor", doctor);
         model.addAttribute("appointments", appointmentRepository.findByDoctorId(doctor.getId()));
 
-        // --- BỔ SUNG 3 DÒNG LẤY VÀ GỬI MEDICAL RECORDS ---
-        // 1. Lấy danh sách MedicalRecord (Entities) từ CSDL
+        // 1. Lấy danh sách MedicalRecord từ csdl theo doctorId
         List<MedicalRecord> medicalRecords = medicalRecordRepository.findByDoctorId(doctor.getId());
-        // 2. Dùng Mapper để chuyển đổi sang DTO (để lấy tóm tắt chẩn đoán)
-        // 3. Gửi danh sách DTOs ra view
+        // 2. Dùng mapper để chuyển đổi sang dto (lấy tóm tắt chẩn đoán)
+        // 3. Gửi dsach dto ra view
         model.addAttribute("medicalRecords", medicalRecordMapper.toDTOList(medicalRecords));
 
 
@@ -65,7 +64,7 @@ public class DoctorController {
         String username = authentication.getName();
         Doctor doctor = doctorService.findByUsername(username);
 
-        // Chuyển Entity sang DTO
+        // Chuyển entity sang dto
         ProfileUpdateDTO profileDTO = new ProfileUpdateDTO();
         profileDTO.setFullName(doctor.getFullName());
         profileDTO.setEmail(doctor.getEmail());
@@ -100,7 +99,7 @@ public class DoctorController {
             redirectAttributes.addFlashAttribute("successMessage", "Cập nhật hồ sơ thành công!");
             return "redirect:/doctor/dashboard";
         } catch (IllegalStateException e) {
-            // Lỗi email trùng
+            // email trùng
             bindingResult.rejectValue("email", "email.exists", e.getMessage());
             model.addAttribute("userRole", "doctor");
             return "profile-form";

@@ -13,6 +13,10 @@
                 <div class="card-header">Cập nhật Hồ sơ cá nhân</div>
                 <div class="card-body">
 
+                    <div th:if="${param.error}" class="alert alert-danger">
+                        Đã có lỗi xảy ra, vui lòng thử lại.
+                    </div>
+
                     <form th:object="${profileDTO}" method="post"
                           th:action="${userRole == 'patient' ? '/patient/profile' : '/doctor/profile'}">
                           <input type="hidden" th:field="*{currentUsername}">
@@ -50,7 +54,28 @@
                         <a th:if="${userRole == 'patient'}" th:href="@{/patient/dashboard}" class="btn btn-secondary">Quay lại</a>
                         <a th:unless="${userRole == 'patient'}" th:href="@{/doctor/dashboard}" class="btn btn-secondary">Quay lại</a>
                         
-                    </form> </div>
+                    </form>
+                    
+                    <div th:if="${userRole == 'patient'}">
+                        <hr class="my-4">
+                        
+                        <div class="card border-danger">
+                            <div class="card-header bg-danger text-white">
+                                Cảnh báo vô hiệu hóa Tài khoản
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title text-danger">Vô hiệu hóa tài khoản</h5>
+                                <p class="card-text">Hành động này sẽ khóa tài khoản của bạn. Bạn sẽ không thể đăng nhập lại. Hành động này không thể hoàn tác.</p>
+                                
+                                <form th:action="@{/patient/deactivate}" method="post"
+                                      onsubmit="return confirm('Bạn có chắc chắn muốn vô hiệu hóa tài khoản của mình? Bạn sẽ bị đăng xuất và không thể đăng nhập lại.');">
+                                    
+                                    <button type="submit" class="btn btn-danger">Tôi hiểu, Vô hiệu hóa tài khoản của tôi</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
             </div>
         </div>
     </div>

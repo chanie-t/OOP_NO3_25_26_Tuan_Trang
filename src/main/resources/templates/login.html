@@ -13,13 +13,17 @@
                 <div class="card-header">Đăng nhập</div>
                 <div class="card-body">
                     <div th:if="${param.error}" class="alert alert-danger">
-                        Sai tên đăng nhập hoặc mật khẩu.
+                        Sai tên đăng nhập hoặc mật khẩu (hoặc tài khoản đã bị khóa).
                     </div>
                     <div th:if="${param.logout}" class="alert alert-success">
                         Bạn đã đăng xuất thành công.
                     </div>
                     <div th:if="${param.success}" class="alert alert-success">
                         Đăng ký thành công! Vui lòng đăng nhập.
+                    </div>
+                    
+                    <div th:if="${param.deactivated}" class="alert alert-warning">
+                        Tài khoản của bạn đã được vô hiệu hóa.
                     </div>
                     <form th:action="@{/login}" method="post">
                         <div class="mb-3">

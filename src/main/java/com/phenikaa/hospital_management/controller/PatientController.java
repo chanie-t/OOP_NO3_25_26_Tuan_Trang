@@ -12,6 +12,8 @@ import com.phenikaa.hospital_management.repository.MedicalRecordRepository;
 import com.phenikaa.hospital_management.repository.PatientRepository;
 import com.phenikaa.hospital_management.service.DoctorService;
 import com.phenikaa.hospital_management.service.PatientService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,6 +21,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -50,13 +53,13 @@ public class PatientController {
     @Autowired
     private MedicalRecordMapper medicalRecordMapper;
 
+    private SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
+
     @GetMapping("/patient/dashboard")
     public String showPatientDashboard(Model model, Authentication authentication) {
         String username = authentication.getName();
-        // SỬA: Dùng service thay vì repository
         Patient patient = patientService.findByUsername(username);
 
-        // (Giữ nguyên code lấy appointments, medicalRecords)
         List<Appointment> appointments = appointmentRepository.findByPatientId(patient.getId());
         List<MedicalRecord> medicalRecords = medicalRecordRepository.findByPatientId(patient.getId());
         
@@ -74,7 +77,6 @@ public class PatientController {
                               @RequestParam(defaultValue = "5") int size,
                               @RequestParam(defaultValue = "id,asc") String sort) {
 
-        // (Giữ nguyên code cũ)
         String[] sortParams = sort.split(",");
         String sortField = sortParams[0];
         Sort.Direction sortDirection = (sortParams.length > 1 && sortParams[1].equalsIgnoreCase("desc")) ?
@@ -103,7 +105,7 @@ public class PatientController {
 
         model.addAttribute("profileDTO", profileDTO);
         model.addAttribute("userRole", "patient"); // Để form biết action là gì
-        return "profile-form"; // Sẽ tạo file này ở Bước 4
+        return "profile-form";
     }
 
     /**
@@ -128,10 +130,36 @@ public class PatientController {
             redirectAttributes.addFlashAttribute("successMessage", "Cập nhật hồ sơ thành công!");
             return "redirect:/patient/dashboard";
         } catch (IllegalStateException e) {
-            // Lỗi email trùng từ Service
+            // email trùng từ Service
             bindingResult.rejectValue("email", "email.exists", e.getMessage());
             model.addAttribute("userRole", "patient");
             return "profile-form";
+        }
+    }
+
+    /**
+     * Xử lý khi Bệnh nhân tự vô hiệu hóa tài khoản
+     */
+    @PostMapping("/patient/deactivate")
+    public String deactivateAccount(Authentication authentication,
+                                  HttpServletRequest request,
+                                  HttpServletResponse response) {
+
+        String username = authentication.getName();
+
+        try {
+            // 1. Gọi service để set active = false
+            patientService.deactivatePatient(username);
+
+            // 2. Đăng xuất người dùng ra khỏi phiên làm việc hiện tại
+            this.logoutHandler.logout(request, response, authentication);
+
+            // 3. Chuyển hướng về trang đăng nhập với thông báo
+            return "redirect:/login?deactivated";
+
+        } catch (Exception e) {
+            // Nếu có lỗi, quay lại trang profile với thông báo lỗi
+            return "redirect:/patient/profile?error=deactivate";
         }
     }
 }

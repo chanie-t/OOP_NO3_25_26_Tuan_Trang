@@ -4,7 +4,7 @@ import com.phenikaa.hospital_management.dto.AppointmentRequestDTO;
 import com.phenikaa.hospital_management.model.Patient;
 import com.phenikaa.hospital_management.repository.PatientRepository;
 import com.phenikaa.hospital_management.repository.DoctorRepository;
-import com.phenikaa.hospital_management.repository.AppointmentRepository;
+// import com.phenikaa.hospital_management.repository.AppointmentRepository;
 import com.phenikaa.hospital_management.service.AppointmentService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +28,8 @@ public class AppointmentController {
     private PatientRepository patientRepository;
     @Autowired
     private DoctorRepository doctorRepository;
-    @Autowired
-    private AppointmentRepository appointmentRepository; 
+    // @Autowired
+    // private AppointmentRepository appointmentRepository;
 
     @GetMapping("/patient/appointments/new/{doctorId}")
     public String showAppointmentForm(@PathVariable Long doctorId, Model model) {
