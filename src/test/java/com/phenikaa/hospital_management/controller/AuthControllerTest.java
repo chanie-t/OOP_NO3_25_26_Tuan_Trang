@@ -2,7 +2,7 @@ package com.phenikaa.hospital_management.controller;
 
 import com.phenikaa.hospital_management.config.SecurityConfig;
 import com.phenikaa.hospital_management.dto.UserRegistrationDTO;
-import com.phenikaa.hospital_management.model.Patient;
+// import com.phenikaa.hospital_management.model.Patient;
 import com.phenikaa.hospital_management.repository.DoctorRepository;
 import com.phenikaa.hospital_management.repository.PatientRepository;
 import com.phenikaa.hospital_management.service.CustomUserDetailsService;

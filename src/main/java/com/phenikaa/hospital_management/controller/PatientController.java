@@ -9,7 +9,7 @@ import com.phenikaa.hospital_management.model.MedicalRecord;
 import com.phenikaa.hospital_management.model.Patient;
 import com.phenikaa.hospital_management.repository.AppointmentRepository;
 import com.phenikaa.hospital_management.repository.MedicalRecordRepository;
-import com.phenikaa.hospital_management.repository.PatientRepository;
+// import com.phenikaa.hospital_management.repository.PatientRepository;
 import com.phenikaa.hospital_management.service.DoctorService;
 import com.phenikaa.hospital_management.service.PatientService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,8 +36,8 @@ import java.util.List;
 @Controller
 public class PatientController {
 
-    @Autowired
-    private PatientRepository patientRepository;
+    // @Autowired
+    // private PatientRepository patientRepository;
     @Autowired
     private AppointmentRepository appointmentRepository;
     @Autowired
