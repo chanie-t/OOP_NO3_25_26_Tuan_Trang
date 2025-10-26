@@ -49,7 +49,7 @@ public class DoctorService {
     public Doctor updateProfile(String username, ProfileUpdateDTO profileDTO) {
         Doctor doctor = findByUsername(username);
 
-        // 1. Kiểm tra Email
+        // Kiểm tra Email
         if (!doctor.getEmail().equals(profileDTO.getEmail())) {
             boolean emailExists = patientRepository.findByEmail(profileDTO.getEmail()).isPresent() ||
                                   doctorRepository.findByEmail(profileDTO.getEmail()).isPresent();
@@ -59,12 +59,10 @@ public class DoctorService {
             doctor.setEmail(profileDTO.getEmail());
         }
 
-        // 2. Cập nhật các trường khác
         doctor.setFullName(profileDTO.getFullName());
         doctor.setPhoneNumber(profileDTO.getPhoneNumber());
         doctor.setDateOfBirth(profileDTO.getDateOfBirth());
         
-        // 3. Lưu lại
         return doctorRepository.save(doctor);
     }
 }

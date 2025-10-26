@@ -138,7 +138,7 @@ public class PatientController {
     }
 
     /**
-     * Xử lý khi Bệnh nhân tự vô hiệu hóa tài khoản
+     * Xử lý khi bệnh nhân tự vô hiệu hóa tài khoản
      */
     @PostMapping("/patient/deactivate")
     public String deactivateAccount(Authentication authentication,
@@ -152,6 +152,7 @@ public class PatientController {
             patientService.deactivatePatient(username);
 
             // 2. Đăng xuất người dùng ra khỏi phiên làm việc hiện tại
+            // 2. Đăng xuất người dùng ra khỏi phiên hiện tại
             this.logoutHandler.logout(request, response, authentication);
 
             // 3. Chuyển hướng về trang đăng nhập với thông báo

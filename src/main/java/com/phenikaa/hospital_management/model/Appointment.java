@@ -30,7 +30,7 @@ public class Appointment {
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
 
-    // --- THÊM LIÊN KẾT ONE-TO-ONE TẠI ĐÂY ---
+    // --- ONE-TO-ONE ---
     @OneToOne(mappedBy = "appointment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private MedicalRecord medicalRecord;
 }

@@ -31,7 +31,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         Optional<Patient> patientOpt = patientRepository.findByUsername(username);
         if (patientOpt.isPresent()) {
             Patient patient = patientOpt.get();
-            // Đọc Role từ CSDL (ví dụ: "PATIENT")
+            // Đọc Role từ CSDL
             GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + patient.getRole());
             
             // Trả về đối tượng UserDetails với kiểm tra 'isActive'
@@ -50,9 +50,8 @@ public class CustomUserDetailsService implements UserDetailsService {
         Optional<Doctor> doctorOpt = doctorRepository.findByUsername(username);
         if (doctorOpt.isPresent()) {
             Doctor doctor = doctorOpt.get();
-            // Đọc Role từ CSDL (ví dụ: "DOCTOR")
+            // Đọc Role từ CSDL
             
-            // SỬA LỖI: Xóa bớt 1 dấu "" ở "ROLE_""
             GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + doctor.getRole()); 
             
             // Trả về đối tượng UserDetails với kiểm tra 'isActive'

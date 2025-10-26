@@ -41,6 +41,9 @@ public class AppointmentController {
         return "appointment-form";
     }
 
+    /**
+     * SỬA LỖI HIỂN THỊ DOUBLE-BOOKING
+     */
     @PostMapping("/patient/appointments/create")
     public String createAppointment(@Valid @ModelAttribute("appointmentRequest") AppointmentRequestDTO requestDTO,
                                     BindingResult bindingResult,
@@ -51,12 +54,26 @@ public class AppointmentController {
         Patient patient = patientRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Patient not found"));
         
+        // Kiểm tra validation cơ bản
         if (bindingResult.hasErrors()) {
             model.addAttribute("doctor", doctorRepository.findById(requestDTO.getDoctorId()).orElse(null));
             return "appointment-form";
         }
 
-        appointmentService.createAppointment(patient.getId(), requestDTO);
+        try {
+            // 1. Thử gọi service
+            appointmentService.createAppointment(patient.getId(), requestDTO);
+            
+        } catch (IllegalStateException e) {
+            
+            // 2. Nếu service ném lỗi (double-booking, hủy sát giờ)
+            //    gán lỗi đó vào trường "appointmentTime"
+            bindingResult.rejectValue("appointmentTime", "appointment.error", e.getMessage());
+            
+            // 3. Giữ lại model và trả về form để hiển thị lỗi
+            model.addAttribute("doctor", doctorRepository.findById(requestDTO.getDoctorId()).orElse(null));
+            return "appointment-form";
+        }
 
         return "redirect:/patient/dashboard?book_success";
     }
@@ -65,8 +82,15 @@ public class AppointmentController {
     @PreAuthorize("@appointmentRepository.findById(#id).get().getPatient().getUsername() == authentication.name")
     public String cancelAppointment(@PathVariable("id") Long id, 
                                   RedirectAttributes redirectAttributes) {
-        appointmentService.cancelAppointment(id);
-        redirectAttributes.addFlashAttribute("cancel_success", "Hủy lịch hẹn thành công.");
+        
+        // Bắt lỗi hủy quá sát giờ
+        try {
+            appointmentService.cancelAppointment(id);
+            redirectAttributes.addFlashAttribute("cancel_success", "Hủy lịch hẹn thành công.");
+        } catch (IllegalStateException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+        
         return "redirect:/patient/dashboard";
     }
 
@@ -74,7 +98,7 @@ public class AppointmentController {
      * Xử lý khi bác sĩ đánh dấu completed
      */
     @PostMapping("/doctor/appointments/complete/{id}")
-    @PreAuthorize("hasRole('DOCTOR')")
+    @PreAuthorize("hasRole('DOCTOR') and @appointmentRepository.findById(#id).get().getDoctor().getUsername() == authentication.name")
     public String completeAppointment(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             appointmentService.completeAppointment(id);

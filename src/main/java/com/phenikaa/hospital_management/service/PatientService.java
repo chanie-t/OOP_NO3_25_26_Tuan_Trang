@@ -4,6 +4,10 @@ import com.phenikaa.hospital_management.dto.ProfileUpdateDTO;
 import com.phenikaa.hospital_management.dto.UserRegistrationDTO;
 import com.phenikaa.hospital_management.exception.ResourceNotFoundException;
 import com.phenikaa.hospital_management.mapper.PatientMapper;
+import com.phenikaa.hospital_management.model.Appointment;
+import com.phenikaa.hospital_management.model.AppointmentStatus;
+import com.phenikaa.hospital_management.repository.AppointmentRepository;
+import java.util.List;
 import com.phenikaa.hospital_management.model.Patient;
 import com.phenikaa.hospital_management.repository.DoctorRepository;
 import com.phenikaa.hospital_management.repository.PatientRepository;
@@ -19,12 +23,15 @@ public class PatientService {
 
     @Autowired
     private DoctorRepository doctorRepository;
+    
+    @Autowired
+    private AppointmentRepository appointmentRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private PatientMapper patientMapper; // Sử dụng MapStruct
+    private PatientMapper patientMapper;
 
     public Patient registerNewPatient(UserRegistrationDTO registrationDTO) {
         Patient patient = patientMapper.toEntity(registrationDTO);
@@ -51,9 +58,9 @@ public class PatientService {
         Patient patient = findByUsername(username);
 
         // 1. check mail có bị trùng không
-        // (chỉ check nếu email bị đổi)
+        // (chỉ check khi email bị đổi)
         if (!patient.getEmail().equals(profileDTO.getEmail())) {
-            // check xem mail mới có bị trùng không
+            // check mail mới có bị trùng không
             boolean emailExists = patientRepository.findByEmail(profileDTO.getEmail()).isPresent() ||
                                   doctorRepository.findByEmail(profileDTO.getEmail()).isPresent();
             if (emailExists) {
@@ -63,7 +70,6 @@ public class PatientService {
             patient.setEmail(profileDTO.getEmail());
         }
 
-        // 2. update trường khác
         patient.setFullName(profileDTO.getFullName());
         patient.setPhoneNumber(profileDTO.getPhoneNumber());
         patient.setDateOfBirth(profileDTO.getDateOfBirth());
@@ -73,12 +79,23 @@ public class PatientService {
     }
 
     /**
-     * Vô hiệu hóa tài khoản bệnh nhân (Soft Delete)
+     * Vô hiệu hóa tài khoản bệnh nhân
+     * Tự động hủy các lịch hẹn chưa diễn ra khi bệnh nhân bị vô hiệu hóa
      */
     @Transactional
     public void deactivatePatient(String username) {
         Patient patient = findByUsername(username);
         patient.setActive(false); 
         patientRepository.save(patient);
+        
+        // Tự động hủy các lịch hẹn chưa diễn ra
+        List<Appointment> scheduledAppointments = appointmentRepository.findByPatientId(patient.getId());
+        
+        for (Appointment app : scheduledAppointments) {
+            if (app.getStatus() == AppointmentStatus.SCHEDULED) {
+                app.setStatus(AppointmentStatus.CANCELLED);
+                appointmentRepository.save(app);
+            }
+        }
     }
 }

@@ -8,7 +8,7 @@ import com.phenikaa.hospital_management.repository.AppointmentRepository;
 import com.phenikaa.hospital_management.repository.MedicalRecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional; // <-- THÊM IMPORT
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -32,7 +32,7 @@ public class MedicalRecordService {
             throw new IllegalStateException("Không thể tạo bệnh án cho lịch hẹn chưa hoàn thành.");
         }
 
-        // 3. KIỂM TRA XEM BỆNH ÁN ĐÃ TỒN TẠI CHƯA (SỬA LỖI LOGIC)
+        // 3. ktra bệnh án đã tồn tại cho cuộc hẹn chưa
         if (appointment.getMedicalRecord() != null) {
             throw new IllegalStateException("Bệnh án cho lịch hẹn này đã tồn tại. Bạn chỉ có thể sửa.");
         }

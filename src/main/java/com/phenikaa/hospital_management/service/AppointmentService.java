@@ -12,7 +12,9 @@ import com.phenikaa.hospital_management.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AppointmentService {
@@ -34,6 +36,13 @@ public class AppointmentService {
         Doctor doctor = doctorRepository.findById(requestDTO.getDoctorId())
                 .orElseThrow(() -> new ResourceNotFoundException("Doctor not found with id: " + requestDTO.getDoctorId()));
 
+        // Kiểm tra double-booking cho bác sĩ
+        Optional<Appointment> existing = appointmentRepository.findByDoctorIdAndAppointmentTime(doctor.getId(), requestDTO.getAppointmentTime());
+        if (existing.isPresent() && existing.get().getStatus() != AppointmentStatus.CANCELLED) {
+            // Nếu đã có lịch (và lịch đó không bị hủy) thì không cho đặt
+            throw new IllegalStateException("Bác sĩ đã có lịch hẹn vào thời điểm này. Vui lòng chọn thời gian khác.");
+        }
+
         Appointment appointment = new Appointment();
         appointment.setPatient(patient);
         appointment.setDoctor(doctor);
@@ -45,11 +54,7 @@ public class AppointmentService {
     }
 
     /**
-     * Bác sĩ đánh dấu lịch hẹn là đã hoàn thành.
-     * @param appointmentId ID của lịch hẹn
-     * @return Lịch hẹn đã cập nhật trạng thái
-     * @throws ResourceNotFoundException nếu không tìm thấy lịch hẹn
-     * @throws IllegalStateException nếu lịch hẹn không ở trạng thái SCHEDULED
+     * Bác sĩ đánh dấu lịch hẹn là đã hoàn thành
      */
     public Appointment completeAppointment(Long appointmentId) {
         Appointment appointment = appointmentRepository.findById(appointmentId)
@@ -69,6 +74,13 @@ public class AppointmentService {
 
         if (appointment.getStatus() == AppointmentStatus.COMPLETED || appointment.getStatus() == AppointmentStatus.CANCELLED) {
             throw new IllegalStateException("Cannot cancel an appointment that is already completed or cancelled.");
+        }
+        
+        final long MINIMUM_HOURS_BEFORE_CANCELLATION = 2;
+        LocalDateTime earliestCancelTime = appointment.getAppointmentTime().minusHours(MINIMUM_HOURS_BEFORE_CANCELLATION);
+
+        if (LocalDateTime.now().isAfter(earliestCancelTime)) {
+            throw new IllegalStateException("Không thể hủy lịch hẹn trong vòng " + MINIMUM_HOURS_BEFORE_CANCELLATION + " giờ trước giờ khám.");
         }
 
         appointment.setStatus(AppointmentStatus.CANCELLED);

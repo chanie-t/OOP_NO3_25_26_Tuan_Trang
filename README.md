@@ -11,11 +11,6 @@
 
 ---
 
-## 2. Thông tin bắt buộc (Yêu cầu 9)
-
-* **Link Github Repository:** `[VUI LÒNG DÁN LINK REPO CỦA BẠN VÀO ĐÂY]`
-* **Link Demo Youtube:** `[VUI LÒNG DÁN LINK YOUTUBE DEMO CỦA BẠN VÀO ĐÂY]`
-* **Link Deploy (chạy toàn cầu):** `[VUI LÒNG DÁN LINK DEPLOY CỦA BẠN VÀO ĐÂY (VÍ DỤ: RENDER, AWS, AZURE...)]`
 ## 2. Thông tin
 
 * **Link Github Repository:** `[link]`
@@ -75,8 +70,7 @@ Hệ thống cho phép hai vai trò người dùng (`PATIENT` và `DOCTOR`) tư�
 
 #### 5.2.4 CRUD Update: Cập nhật Hồ sơ cá nhân
 
-<img width="1182" height="546" alt="CRUD hồ sơ cá nhân" src="images/CRUD bsi tạo bệnh án.png" />
-
+<img width="1182" height="546" alt="CRUD hồ sơ cá nhân" src="images/CRUD hồ sơ cá nhân.png" />
 
 #### 5.2.5 CRUD Delete: Bệnh nhân hủy lịch hẹn
 

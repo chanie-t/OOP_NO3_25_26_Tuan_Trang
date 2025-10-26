@@ -31,7 +31,7 @@ public class MedicalRecord {
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
 
-    // --- THÊM LIÊN KẾT ONE-TO-ONE TẠI ĐÂY ---
+    // --- ONE-TO-ONE ---
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "appointment_id", unique = true) // Đảm bảo tính duy nhất
     private Appointment appointment;

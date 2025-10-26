@@ -25,17 +25,20 @@ public class MedicalRecordController {
 
     /**
      * Hiển thị form tạo bệnh án cho bác sĩ
-     * Chỉ bác sĩ mới có quyền tạo bệnh án
+     * Chỉ bác sĩ sở hữu lịch hẹn mới được xem form
      */
     @GetMapping("/records/create-for-appointment/{appointmentId}")
-    @PreAuthorize("hasRole('DOCTOR')") 
+    @PreAuthorize("hasRole('DOCTOR') and @appointmentRepository.findById(#appointmentId).get().getDoctor().getUsername() == authentication.name") 
     public String showCreateRecordForm(@PathVariable("appointmentId") Long appointmentId, Model model) { 
         model.addAttribute("appointmentId", appointmentId);
         return "create-medical-record"; 
     }
 
+    /**
+     * Chỉ bác sĩ sở hữu lịch hẹn mới được tạo bệnh án
+     */
     @PostMapping("/records/create-for-appointment/{appointmentId}")
-    @PreAuthorize("hasRole('DOCTOR')") 
+    @PreAuthorize("hasRole('DOCTOR') and @appointmentRepository.findById(#appointmentId).get().getDoctor().getUsername() == authentication.name") 
     public String processCreateRecord(@PathVariable("appointmentId") Long appointmentId,
                                       @RequestParam("diagnosis") String diagnosis,
                                       @RequestParam("prescription") String prescription,
@@ -56,7 +59,6 @@ public class MedicalRecordController {
     @GetMapping("/patient/records/{id}")
     @PreAuthorize("hasRole('PATIENT') and @medicalRecordRepository.findById(#id).get().getPatient().getUsername() == authentication.name")
     public String showMedicalRecordDetail(@PathVariable("id") Long id, Model model) {
-        
         MedicalRecord record = medicalRecordRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Medical record not found with id: " + id));
         
@@ -76,7 +78,7 @@ public class MedicalRecordController {
                 .orElseThrow(() -> new ResourceNotFoundException("Medical record not found with id: " + id));
         
         model.addAttribute("record", record);
-        return "edit-medical-record"; // (File HTML mới sẽ được tạo ở bước 5)
+        return "edit-medical-record";
     }
 
     /**
