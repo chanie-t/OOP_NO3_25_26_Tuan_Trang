@@ -29,8 +29,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // 1. Tìm trong bảng Patient
         Optional<Patient> patientOpt = patientRepository.findByUsername(username);
-        if (patientOpt.isPresent()) {
-            Patient patient = patientOpt.get();
+        if (patientOpt.isPresent()) { // Nếu tìm thấy trong bảng Patient
+            Patient patient = patientOpt.get(); // Lấy đối tượng Patient
             // Đọc Role từ CSDL
             GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + patient.getRole());
             
