@@ -1,6 +1,6 @@
 # Đồ án OOP: Hệ Thống Quản Lý Bệnh Viện
 
-Đây là đồ án môn học Lập trình Hướng đối tượng (OOP) - CSE703029, được thực hiện bởi Nhóm 04.
+Đây là đồ án môn học Lập trình Hướng đối tượng (OOP)
 
 ## 1. Thông tin Nhóm
 
