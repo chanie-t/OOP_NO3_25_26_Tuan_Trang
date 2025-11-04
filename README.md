@@ -13,7 +13,7 @@
 
 ## 2. Thông tin
 
-* **Link Github Repository:** `[https://github.com/chanie-t/OOP_NO3_25_26_Tuan_Trang]`
+* **Link Github Repository:** https://github.com/chanie-t/OOP_NO3_25_26_Tuan_Trang
 * **Link Demo Youtube:** `[link]`
 * **Link Deploy (chạy toàn cầu):** `[link]`
 
