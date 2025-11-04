@@ -151,7 +151,6 @@ public class PatientController {
             // 1. Gọi service để set active = false
             patientService.deactivatePatient(username);
 
-            // 2. Đăng xuất người dùng ra khỏi phiên làm việc hiện tại
             // 2. Đăng xuất người dùng ra khỏi phiên hiện tại
             this.logoutHandler.logout(request, response, authentication);
 

@@ -31,6 +31,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         Optional<Patient> patientOpt = patientRepository.findByUsername(username);
         if (patientOpt.isPresent()) { // Nếu tìm thấy trong bảng Patient
             Patient patient = patientOpt.get(); // Lấy đối tượng Patient
+
             // Đọc Role từ CSDL
             GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + patient.getRole());
             
