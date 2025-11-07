@@ -15,7 +15,6 @@
 
 * **Link Github Repository:** https://github.com/chanie-t/OOP_NO3_25_26_Tuan_Trang
 * **Link Demo Youtube:** https://www.youtube.com/watch?v=M3vxbVqIVQM
-* **Link Deploy (chạy toàn cầu):** `[link]`
 
 ---
 
